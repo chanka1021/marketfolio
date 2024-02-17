@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
+import Userpic from "../assets/avatar.svg";
 import { IoMdClose } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
 import { CiHome } from "react-icons/ci";
@@ -7,15 +8,44 @@ import { MdOutlineAddToPhotos } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoMdContacts } from "react-icons/io";
 import { IoMdContact } from "react-icons/io";
+import { BsViewList } from "react-icons/bs";
+import { FiShoppingCart } from "react-icons/fi";
+import { IoIosSettings } from "react-icons/io";
 
 function Navbar() {
   let Links = [
     { name: "HOME", link: "/", icon: <CiHome /> },
     { name: "Contact", link: "/contact", icon: <IoMdContacts /> },
   ];
+  let UserLinks = [
+    { name: "My listings", link: "/listings", icon: <BsViewList /> },
+    { name: "My orders", link: "/orders", icon: <FiShoppingCart /> },
+    { name: "Settingd", link: "/settings", icon: <IoIosSettings /> },
+  ];
 
   let [open, setOpen] = useState(false);
   let [logged, setLogged] = useState(true);
+
+  const UserInfo = (
+    <>
+      <div className="flex items-center w-full">
+        <img src={Userpic} className=" shadow-lg rounded-full" />
+        <div className="ml-5 text-gray-900">
+          <p className="text-lg">Hello 👋,</p>
+          <h4 className="text-xl">John doe</h4>
+        </div>
+      </div>
+    </>
+  );
+  const UserSettigns = (
+    <>
+      <ul>{UserLinks.map((link) => {
+        <li>
+          {link.name}
+        </li>
+      })}</ul>
+    </>
+  );
 
   return (
     <div className="shadow-md w-full sticky top-0 left-0">
@@ -37,26 +67,29 @@ function Navbar() {
         >
           <div className="md:hidden mt-10">
             {logged ? (
-              <div> logged</div>
+              <div> {UserInfo} {UserSettigns}</div>
             ) : (
               <span>
-                <h4 className="text-3xl font-bold text-gray-800">Welcome to MarketFolio</h4>
-                <h6 className="text-gray-800 text-xl">Your favorit merketplace in europ</h6>
+                <h4 className="text-3xl font-bold text-gray-800">
+                  Welcome to MarketFolio
+                </h4>
+                <h6 className="text-gray-800 text-xl">
+                  Your favorit merketplace in europ
+                </h6>
                 <div className="mt-5  w-fit m-auto flex flex-col gap-2">
-                <button className="bg-blue-500 items-center  hover:bg-blue-700 flex justify-center text-white  py-2 px-4 rounded w-[350px]">
-                  <a>
-                    <IoMdContact className="mr-2" />
-                  </a>
-                  Login
-                </button>
-                <button className="items-center flex bg-red-400 text-white justify-center hover:bg-red-700   px-4 py-2 rounded w-[350px]">
-                  <a>
-                    <MdOutlineAddToPhotos className="mr-2" />
-                  </a>
-                  sell
-                </button>
+                  <button className="bg-blue-500 items-center  hover:bg-blue-700 flex justify-center text-white  py-2 px-4 rounded w-[350px]">
+                    <a>
+                      <IoMdContact className="mr-2" />
+                    </a>
+                    Login
+                  </button>
+                  <button className="items-center flex bg-red-400 text-white justify-center hover:bg-red-700   px-4 py-2 rounded w-[350px]">
+                    <a>
+                      <MdOutlineAddToPhotos className="mr-2" />
+                    </a>
+                    sell
+                  </button>
                 </div>
-
               </span>
             )}
           </div>
@@ -71,25 +104,23 @@ function Navbar() {
               </a>
             </li>
           ))}
-          <span className="hidden md:visible">
-
-          
-          <div className="md:ml-8 md:my-0 my-7 md:pl-10 ">
-            {logged ? (
-              <div> xx</div>
-            ) : (
-              <div className="cursor-pointer hover:font-semibold duration-300 trasition-all">
-                {" "}
-                <Link to="/login">Login</Link>
-              </div>
-            )}
-          </div>
-          <button className="btn w-fit items-center flex bg-blue-600 text-white md:ml-8  px-5 py-1 rounded duration-500 md:static">
-            <a>
-              <MdOutlineAddToPhotos className="mr-2" />
-            </a>
-            sell
-          </button>
+          <span className=" md:pl-10 md:flex hidden md:items-center ">
+            <div className="md:ml-8 md:my-0 my-7  ">
+              {logged ? (
+                <div className="bg-black p2"> xxxxxx</div>
+              ) : (
+                <div className="cursor-pointer hover:font-semibold duration-300 trasition-all">
+                  {" "}
+                  <Link to="/login">Login</Link>
+                </div>
+              )}
+            </div>
+            <button className="btn w-fit items-center flex bg-blue-600 text-white md:ml-8  px-5 py-1 rounded duration-500 md:static">
+              <a>
+                <MdOutlineAddToPhotos className="mr-2" />
+              </a>
+              sell
+            </button>
           </span>
         </ul>
       </div>
