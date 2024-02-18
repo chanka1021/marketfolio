@@ -1,1 +1,2 @@
 #FF4C59 -- crimson
+#2455CC -- blue

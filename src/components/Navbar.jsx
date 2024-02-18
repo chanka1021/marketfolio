@@ -12,8 +12,9 @@ import { BsViewList } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoIosSettings } from "react-icons/io";
 import { MdNavigateNext } from "react-icons/md";
-import { Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/react";
+import { Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Toast } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
+import { useToast } from '@chakra-ui/react'
 
 function Navbar() {
   let Links = [
@@ -36,7 +37,7 @@ function Navbar() {
     </>
   );
   let [open, setOpen] = useState(false);
-  let [logged, setLogged] = useState(false);
+  let [logged, setLogged] = useState(true);
 
   const UserInfo = (
     <>
@@ -64,6 +65,20 @@ function Navbar() {
       </ul>
     </>
   );
+
+  const toast = useToast()
+
+const Signout = () =>{
+  toast({
+    title: 'Logged out.',
+    description: "See you next time 👋",
+    status: 'success',
+    duration: 3000,
+    isClosable: true,
+  })
+  setLogged(false)
+}
+
   const UserMenu = (
     <>
       <Menu>
@@ -90,7 +105,7 @@ function Navbar() {
             </Link>
           ))}
           <MenuDivider/>
-          <MenuItem>Sign out</MenuItem>
+          <MenuItem onClick={Signout}>Sign out</MenuItem>
         </MenuList>
       </Menu>
     </>
@@ -98,7 +113,7 @@ function Navbar() {
 
   return (
     <div className="shadow-md w-full sticky top-0 left-0">
-      <div className="md:px-10 py-4 px-7 md:flex items-center justify-between">
+      <div className="md:px-60 py-4 px-7 md:flex items-center justify-between">
         <div className="flex cursor-pointer items-center gap-2">
           <img src={logo} alt="logo" className="w-8" />
           <h3 className="text-2xl font-mono font-bold">MarketFolio</h3>
@@ -158,7 +173,7 @@ function Navbar() {
               {logged ? (
                 <div className="p2"> {UserMenu}</div>
               ) : (
-                <div className="cursor-pointer hover:font-semibold duration-300 trasition-all">
+                <div onClick={() => setLogged(true)} className="cursor-pointer hover:font-semibold duration-300 trasition-all">
                   {" "}
                   <Link to="/login">Login</Link>
                 </div>
