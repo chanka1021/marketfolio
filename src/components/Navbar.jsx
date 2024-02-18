@@ -12,14 +12,7 @@ import { BsViewList } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoIosSettings } from "react-icons/io";
 import { MdNavigateNext } from "react-icons/md";
-import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import { Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 
 function Navbar() {
@@ -96,7 +89,7 @@ function Navbar() {
               <MenuItem>{link.name}</MenuItem>
             </Link>
           ))}
-          <MenuDivider />
+          <MenuDivider/>
           <MenuItem>Sign out</MenuItem>
         </MenuList>
       </Menu>
