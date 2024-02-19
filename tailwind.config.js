@@ -1,10 +1,12 @@
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        Cyan: "#2455CC",
+        Crimson: "#FF4C59",
+      },
+    },
   },
   plugins: [],
-}
+};

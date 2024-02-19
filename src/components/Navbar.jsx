@@ -125,8 +125,8 @@ const Signout = () =>{
           {open ? <IoMdClose /> : <FaBars />}
         </div>
         <ul
-          className={`md:flex md:items-center md:pb-0 pb-12 bg-[#F8F7F3] md:bg-transparent absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
-            open ? "top-12" : "top-[-490px]"
+          className={`md:flex md:items-center md:pb-0 pb-12 md:bg-transparent absolute md:static md:z-auto left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+            open ? "top-12 " : "top-[-490px]"
           }`}
         >
           <div className="md:hidden mt-10">
