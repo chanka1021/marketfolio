@@ -3,7 +3,7 @@ import Searchbar from '../components/Searchbar'
 
 function Home() {
   return (
-    <div className='relative z[-1]'>
+    <div>
       <Searchbar/>
       home
     </div>
