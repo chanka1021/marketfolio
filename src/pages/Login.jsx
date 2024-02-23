@@ -11,57 +11,75 @@ import {
 } from "@chakra-ui/react";
 import { AiTwotoneMail } from "react-icons/ai";
 import { PiPasswordDuotone } from "react-icons/pi";
+import { Link } from "react-router-dom";
 
 function Login() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const handleLog = () => {
+    console.log(email, password);
+  };
   return (
     <>
-      <div className=" w-full h-screen flex justify-center items-center md:p-10">
-        <div className="w-[90%] h-fullshadow-lg flex">
-          <div className="w-[50%]">
+      <div className=" w-full h-screen flex justify-center  md:px-5 py-0">
+        <div className="w-[90%]  md:flex items-center md:mt-[-50px]">
+          <div className="w-[50%] m-auto ">
             <img src={img} alt="" />
           </div>
-          <div>
+          <div className="w-full md:w-[50%] md:px-20">
             <h1 className="text-3xl font-bold">Login to MarketFolio</h1>
-            <p className="text-gray-500">
+            <p className="text-gray-500 py-5 ">
               You can use Quick Authentication with your Facebook or Gmail
               account
             </p>
-            <span className="flex gap-4">
-              <Button className=" p-2 rounded flex items-center shadow-md ">
-                {" "}
+            <span className="flex gap-5 md:gap-20 w-full  justify-center">
+              <button className="p-2 rounded-lg px-10 border-2 flex items-center shadow-xl duration-300 hover:bg-Cyan hover:text-white ">
                 <FcGoogle className="mr-2" /> Google
-              </Button>
-              <Button className=" p-2 rounded flex items-center shadow-md">
-                {" "}
-                <RiFacebookFill className="mr-2 text-blue-700" /> Facebook{" "}
-              </Button>
+              </button>
+              <button className="p-2 rounded-lg px-10 border-2 flex items-center shadow-xl duration-300 hover:bg-Crimson hover:text-white ">
+                <RiFacebookFill className="mr-2 text-blue-700" /> Facebook
+              </button>
             </span>
-            <div className=" w-full text-gray-500 border-b items-center text-center font-bold ">
+            <div className=" w-full text-gray-500 border-b items-center text-center font-bold py-5 ">
               Or
             </div>
             <span>
-              <p>Enter your email and password</p>
-              <Text className="text-red-500">Email</Text>
+              <p className="text-gray-500 mt-3">Enter your email and password</p>
+              <Text className=" mt-4 py-1 ">Email</Text>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
                   <AiTwotoneMail />
                 </InputLeftElement>
-                <Input type="Email" placeholder="E-mail" />
+                <Input
+                  type="Email"
+                  placeholder="E-mail"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </InputGroup>
 
-              <Text className="text-red-500">Password</Text>
+              <Text className=" mt-4 py-1 ">Password</Text>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
                   <PiPasswordDuotone />
                 </InputLeftElement>
-                <Input type="password" placeholder="Password" />
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </InputGroup>
-              <Button className="w-full bg-red-500 text-white p-2 rounded">
+              <div className=" hover:text-red-500 text-right cursor-pointer py-2 underline ">
+                Forgot Password ?
+              </div>
+              <button
+                className="w-full bg-red-500 text-white p-2 rounded duration-3  00 hover:bg-[#833737]"
+                onClick={handleLog}
+              >
                 Login
-              </Button>
+              </button>
+              <div className="text-center mt-2">
+              Not registered?  <Link to="/register"> <p className="text-red-500 cursor-pointer">Register for free.</p> </Link>
+              </div> 
             </span>
           </div>
         </div>
