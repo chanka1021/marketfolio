@@ -15,6 +15,7 @@ import { MdNavigateNext } from "react-icons/md";
 import { Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Toast } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import { useToast } from '@chakra-ui/react'
+import { useLogout } from "../hooks/useLogout";
 
 function Navbar() {
   let Links = [
@@ -67,8 +68,11 @@ function Navbar() {
   );
 
   const toast = useToast()
+  const { logout } = useLogout()
 
 const Signout = () =>{
+  
+  logout()
   toast({
     title: 'Logged out.',
     description: "See you next time 👋",
