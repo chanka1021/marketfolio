@@ -19,8 +19,8 @@ export const useSignup = () => {
         city,
         phone,
       });
-      
-      if (response.status === 200) {
+
+      if (response.status === 200 || response.status === 201) {
         setIsPending(false);
         setError(null);
         localStorage.setItem("user", JSON.stringify(response.data));
