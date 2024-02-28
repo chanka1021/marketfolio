@@ -18,6 +18,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const handleLog = () => {
     console.log(email, password);
+    
   };
   return (
     <>

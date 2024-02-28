@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {useSignup} from "../hooks/useSignup"
+
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
 import { AiTwotoneMail } from "react-icons/ai";
@@ -6,7 +8,6 @@ import { PiPasswordDuotone } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import img from "../assets/illustration-2.png";
 import {
-  Button,
   Input,
   InputGroup,
   InputLeftElement,
@@ -14,6 +15,8 @@ import {
 } from "@chakra-ui/react";
 
 function Signup() {
+  const { signup, error, isPending } = useSignup();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -29,7 +32,8 @@ function Signup() {
 
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const handleSignup = () => {
+  const handleSignup =  async (e) => {
+    e.preventDefault();
     // Validation
     let isValid = true;
 
@@ -47,7 +51,7 @@ function Signup() {
       setEmailError("");
     }
 
-    if (password !== confirmPassword) {
+   /*  if (password !== confirmPassword) {
       setPasswordError("Passwords do not match.");
       isValid = false;
     } else {
@@ -57,7 +61,7 @@ function Signup() {
      if (password.length < 8) {
       setPasswordError("Password must be at least 8 characters long.");
       isValid = false;
-     }
+     } */
      if (address.length === 0) {
       setAdressError("Address cannot be empty")
       isValid = false
@@ -65,7 +69,8 @@ function Signup() {
 
     if (isValid) {
       // Handle signup logic here
-      console.log(name, email, phone, password, address, policyAccepted);
+      await signup(name, email,password,address, phone );
+      console.log(name, email, phone, password, address);
     }
   };
 
@@ -197,6 +202,7 @@ function Signup() {
             <Link to="/login">
               <p className="text-red-500 cursor-pointer">Login here.</p>
             </Link>
+            {error && <Text className="text-red-500">err :{error}</Text>}
           </div>
         </div>
       </div>

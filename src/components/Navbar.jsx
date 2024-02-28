@@ -37,7 +37,7 @@ function Navbar() {
     </>
   );
   let [open, setOpen] = useState(false);
-  let [logged, setLogged] = useState(true);
+  let [logged, setLogged] = useState(false);
 
   const UserInfo = (
     <>
