@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import img from "../assets/illustration-1.png";
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
+import { useLogin } from "../hooks/useLogin";
 import {
   Button,
   Input,
@@ -16,8 +17,10 @@ import { Link } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLog = () => {
-    console.log(email, password);
+  const { error, isPending, login } = useLogin();
+  const handleLog = async (e) => {
+    e.preventDefault();
+    await login(email, password);
     
   };
   return (
@@ -78,6 +81,7 @@ function Login() {
               >
                 Login
               </button>
+              {error && <div className="text-red-500">{error}</div>}
               <div className="text-center mt-2">
               Not registered?  <Link to="/register"> <p className="text-red-500 cursor-pointer">Register for free.</p> </Link>
               </div> 

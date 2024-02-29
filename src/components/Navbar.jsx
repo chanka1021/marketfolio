@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import Userpic from "../assets/avatar.svg";
 import { IoMdClose } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
 import { CiHome } from "react-icons/ci";
@@ -8,116 +7,36 @@ import { MdOutlineAddToPhotos } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoMdContacts } from "react-icons/io";
 import { IoMdContact } from "react-icons/io";
-import { BsViewList } from "react-icons/bs";
-import { FiShoppingCart } from "react-icons/fi";
-import { IoIosSettings } from "react-icons/io";
-import { MdNavigateNext } from "react-icons/md";
-import { Button, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Toast } from "@chakra-ui/react";
-import { FaUserCircle } from "react-icons/fa";
-import { useToast } from '@chakra-ui/react'
 import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
+import UserMenu from "./UserMenu";
+import SellBtn from "./Buttons/SellBtn";
 
 function Navbar() {
   let Links = [
     { name: "Home", link: "/", icon: <CiHome /> },
     { name: "Contact", link: "/contact", icon: <IoMdContacts /> },
   ];
-  let UserLinks = [
-    { name: "My listings", link: "/listings", icon: <BsViewList /> },
-    { name: "My orders", link: "/orders", icon: <FiShoppingCart /> },
-    { name: "Settings", link: "/settings", icon: <IoIosSettings /> },
-  ];
-  let SellBtn = (
-    <>
-      <button className="items-center flex bg-red-400 text-white justify-center hover:bg-red-700   px-4 py-2 rounded w-full">
-        <a>
-          <MdOutlineAddToPhotos className="mr-2" />
-        </a>
-        sell
-      </button>
-    </>
-  );
+
+ 
+
+  const { user } = useAuthContext();
+
   let [open, setOpen] = useState(false);
-  let [logged, setLogged] = useState(false);
+  let [logged, setLogged] = useState(!!user);
 
-  const UserInfo = (
-    <>
-      <div className="flex items-center w-full">
-        <img src={Userpic} className=" shadow-lg rounded-full" />
-        <div className="ml-5 text-gray-900">
-          <p className="text-lg">Hello 👋,</p>
-          <h4 className="text-xl">John doe</h4>
-        </div>
-      </div>
-    </>
-  );
-  const UserSettings = (
-    <>
-      <ul className="flex flex-col gap-1 w-full mt-4 pr-9 font-light">
-        {UserLinks.map((link) => (
-          <li key={link.name} className="flex items-center justify-between p-1">
-            <div className="flex items-center text-lg text-gray-800 hover:text-cyan-400 ">
-              {link.icon} <a className="ml-3">{link.name}</a>
-            </div>
-            <MdNavigateNext />
-          </li>
-        ))}
-        {SellBtn}
-      </ul>
-    </>
-  );
+  useEffect(() => {
+    setLogged(!!user);
+  }, [user]);
 
-  const toast = useToast()
-  const { logout } = useLogout()
-
-const Signout = () =>{
-  
-  logout()
-  toast({
-    title: 'Logged out.',
-    description: "See you next time 👋",
-    status: 'success',
-    duration: 3000,
-    isClosable: true,
-  })
-  setLogged(false)
-}
-
-  const UserMenu = (
-    <>
-      <Menu>
-        <MenuButton
-          bg={"#FF4C59"}
-          borderRadius={40}
-          fontWeight={"light"}
-          color={"white"}
-          _expanded={{ bg: "#FF4C59" }}
-          as={Button}
-          rightIcon={<MdNavigateNext />}
-        >
-          <div className="flex items-center">
-            <div className="px-2">
-              <FaUserCircle />
-            </div>
-            Achraf Chouach
-          </div>
-        </MenuButton>
-        <MenuList>
-          {UserLinks.map((link) => (
-            <Link to={link.link} key={link.name}>
-              <MenuItem>{link.name}</MenuItem>
-            </Link>
-          ))}
-          <MenuDivider/>
-          <MenuItem onClick={Signout}>Sign out</MenuItem>
-        </MenuList>
-      </Menu>
-    </>
-  );
+  const { logout } = useLogout();
+  const Signout = () => {
+    logout();
+  };
 
   return (
     <div className="shadow-md w-full relative top-0 left-0 ">
-      <div className="md:px-60 py-4 px-7 md:flex items-center justify-between">
+      <div className="md:px-60  py-4 px-7 md:flex items-center justify-between">
         <div className="flex cursor-pointer items-center gap-2">
           <img src={logo} alt="logo" className="w-8" />
           <h3 className="text-2xl font-mono font-bold">MarketFolio</h3>
@@ -128,16 +47,14 @@ const Signout = () =>{
         >
           {open ? <IoMdClose /> : <FaBars />}
         </div>
-        <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute  md:static
+        <ul
+          className={`md:flex md:items-center md:pb-0 pb-12 absolute  md:static
          bg-white md:z-auto z-[-1] left-0 w-full md:w-auto  md:pl-0 pl-9 transition-all duration-500 ease-in
-          ${open ? 'top-12  z-[999]' : 'top-[-490px]'}`}>
-        
+          ${open ? "top-12  z-[999]" : "top-[-490px]"}`}
+        >
           <div className="md:hidden mt-10">
             {logged ? (
-              <div>
-                {" "}
-                {UserInfo} {UserSettings}
-              </div>
+              <UserMenu mobile={true} />
             ) : (
               <span>
                 <h4 className="text-3xl font-bold text-gray-800">
@@ -153,7 +70,7 @@ const Signout = () =>{
                     </a>
                     Login
                   </button>
-                  {SellBtn}
+                  <SellBtn/>
                 </div>
               </span>
             )}
@@ -169,15 +86,19 @@ const Signout = () =>{
                   {link.name}
                 </a>
               </li>
+              <li>
+                <a></a>
+              </li>
             </Link>
           ))}
           <span className=" md:pl-10 md:flex hidden md:items-center ">
             <div className="md:ml-8 md:my-0 my-7  ">
               {logged ? (
-                <div className="p2"> {UserMenu}</div>
+                <div className="p2">
+                  <UserMenu />
+                </div>
               ) : (
-                <div onClick={() => setLogged(true)} className="cursor-pointer hover:font-semibold duration-300 trasition-all">
-                  {" "}
+                <div className="cursor-pointer hover:font-semibold duration-300 trasition-all">
                   <Link to="/login">Login</Link>
                 </div>
               )}
