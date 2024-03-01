@@ -180,8 +180,7 @@ function Searchbar() {
 
   return (
     <div className="w-full shadow-md ">
-      <div className="w-full md:px-60 md:flex items-center gap-2 justify-between py-4">
-        {/* Input field for search */}
+      <div className="w-full xl:px-60 md:px-16 md:flex items-center gap-2 justify-between py-4">
         <div className="md:w-1/4 h-full md:px-2">
           <InputGroup>
             <Input

@@ -16,6 +16,9 @@ import { MdElectricScooter } from "react-icons/md";
 import { GiGps } from "react-icons/gi";
 import { GiCarSeat } from "react-icons/gi";
 import { CgCardSpades } from "react-icons/cg";
+import { MdPets } from "react-icons/md";
+import { LuCat, LuDog } from "react-icons/lu";
+import { MdSportsVolleyball } from "react-icons/md";
 
 export const Categories = [
   {
@@ -101,5 +104,26 @@ export const Categories = [
     name:'Collectibles',
     color : '#800040',
     icon : <CgCardSpades/>
+  },
+  {
+    name:'Pet Supplies',
+    color : '#804000',
+    icon : <MdPets/>,
+    childerns : [
+      {
+        name: "Dog",
+        icon : <LuDog/>
+      },
+      {
+        name: "Cat",
+        icon : <LuCat/>
+      }
+    ]
+  },
+  {
+    name:'Sports & Fitness',
+    color : '#408080',
+    icon : <MdSportsVolleyball/>
   }
+
 ];

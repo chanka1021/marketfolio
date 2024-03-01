@@ -36,11 +36,13 @@ function Navbar() {
 
   return (
     <div className="shadow-md w-full relative top-0 left-0 ">
-      <div className="md:px-60  py-4 px-7 md:flex items-center justify-between">
+      <div className="xl:px-60 md:px-12 py-4 px-7 md:flex items-center justify-between">
+        <Link to="/">
         <div className="flex cursor-pointer items-center gap-2">
           <img src={logo} alt="logo" className="w-8" />
           <h3 className="text-2xl font-mono font-bold">MarketFolio</h3>
         </div>
+        </Link>
         <div
           onClick={() => setOpen(!open)}
           className="absolute right-8 top-6  cursor-pointer h-7 w-7 md:hidden"

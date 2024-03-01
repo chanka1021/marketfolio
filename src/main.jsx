@@ -5,6 +5,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
+import "aos/dist/aos.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 
