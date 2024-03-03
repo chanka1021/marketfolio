@@ -15,7 +15,8 @@ function Home() {
       <ProductByCat id="1"/>
       <ProductByCat id="1"/>
 
-      home
+      homesasas
+      asas
     </div>
   )
 }

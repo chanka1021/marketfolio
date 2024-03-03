@@ -48,7 +48,7 @@ function ProductByCat({ id }) {
         </div>
         <Slider {...settings} className="Cards-Slider py-5 text-black">
           {[...Array(8)].map((_, index) => (
-            <ProductCard key={index} />
+            <ProductCard key={index}  />
           ))}
         </Slider>
       </div>

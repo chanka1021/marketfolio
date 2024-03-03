@@ -73,7 +73,7 @@ function Searchbar() {
         <DrawerHeader borderBottomWidth={1}>Select a category</DrawerHeader>
         <DrawerBody>
           {Categories.map((category) =>
-            category.childerns ? (
+            category.childrens ? (
               <Accordion allowToggle key={category.id}>
                 <AccordionItem>
                   <h2>
@@ -88,7 +88,7 @@ function Searchbar() {
                     </AccordionButton>
                   </h2>
                   <AccordionPanel>
-                    {category.childerns.map((child) => (
+                    {category.childrens.map((child) => (
                       <Button
                         bg={"white"}
                         padding={"10px 20px"}

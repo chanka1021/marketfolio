@@ -32,7 +32,7 @@ export const Categories = [
     name: "Electronics",
     icon: <HiOutlineComputerDesktop />,
     color: "#f0464a",
-    children: [
+    childrens: [
       {
         id: "2.1",
         name: "Computers",
@@ -71,7 +71,7 @@ export const Categories = [
     name: "Fashion",
     color: "#ffff77",
     icon: <GiClothes />,
-    children: [
+    childrens: [
       {
         id: "4.1",
         name: "Men",
@@ -99,7 +99,7 @@ export const Categories = [
     name: "Auto Parts",
     color: "#ff8000",
     icon: <GiGears />,
-    children: [
+    childrens: [
       {
         id: "5.1",
         name: "Scooter Parts",
@@ -128,7 +128,7 @@ export const Categories = [
     name: "Pet Supplies",
     color: "#804000",
     icon: <MdPets />,
-    children: [
+    childrens: [
       {
         id: "7.1",
         name: "Dog",
