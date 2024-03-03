@@ -22,6 +22,8 @@ import { MdNavigateNext } from "react-icons/md";
 import { Categories } from "../data/categories";
 import { FaTreeCity } from "react-icons/fa6";
 import { Cities } from "./../data/cities";
+import CategorySelectorDrawer from './Drawers/CategorySelectorDrawer';
+import CitySelectorDrawer from './Drawers/CitySelectorDrawer';
 
 function Searchbar() {
   // State variables for selected category, filtered cities, and city selection modal
@@ -59,7 +61,7 @@ function Searchbar() {
   };
 
   // JSX for category selection modal
-  const categorySelector = (
+ /*  const categorySelector = (
     <Drawer
       isOpen={isOpen}
       placement="right"
@@ -128,10 +130,10 @@ function Searchbar() {
         </DrawerBody>
       </DrawerContent>
     </Drawer>
-  );
+  ); */
 
   // JSX for city selection modal
-  const citySelector = (
+ /*  const citySelector = (
     <Drawer
       isOpen={isOpen2}
       placement="right"
@@ -177,7 +179,7 @@ function Searchbar() {
       </DrawerContent>
     </Drawer>
   );
-
+ */
   return (
     <div className="w-full shadow-md ">
       <div className="w-full xl:px-60 md:px-16 md:flex items-center gap-2 justify-between py-4">
@@ -236,8 +238,8 @@ function Searchbar() {
         </div>
       </div>
       {/* Render modals */}
-      {categorySelector}
-      {citySelector}
+      <CategorySelectorDrawer isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} handleCategoryClick={handleCategoryClick} />
+      <CitySelectorDrawer isOpen={isOpen2} onClose={onClose2} finalFocusRef={btnRef2} handleCitySelection={handleCitySelection} filteredCities={filteredCities} />
     </div>
   );
 }
