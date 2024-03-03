@@ -18,16 +18,28 @@ function Banner() {
     }, []);
 
     return (
-        <div className='relative w-full h-96 border'>
-            <div className="absolute inset-0" style={{ backgroundImage: `url(${bannerImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-            <div className="absolute inset-0 md:px-60 md:py-10 items-center max-sm:justify-center flex">
-                <div className="w-96 h-72 bg-white shadow-sm md:p-10 max-sm:w-72 max-sm:h-56 p-5 shadow-slate-200">
-                    <h1 className="text-3xl max-sm:text-xl font-bold">{bannerTitle}</h1>
-                    <Button className="mt-5" colorScheme="teal" size="lg">
+        <div className="relative w-full h-96 border overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden">
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        backgroundImage: `url(${bannerImage})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundAttachment: "fixed", // 
+                    }}
+                ></div>
+                <div className="absolute inset-0 bg-black opacity-50"></div>
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center px-4">
+                <div className="w-full max-w-md bg-white shadow-md p-6 rounded-lg text-center text-gray-800">
+                    <h1 className="text-3xl font-bold mb-4">{bannerTitle}</h1>
+                    <Button colorScheme="teal" size="lg" className="mb-4">
                         Get Started Now!
                     </Button>
-                    <p className="cursor-pointer text-sm text-cyan-700 mt-2 underline">Learn how it works</p>
+                    <p className="text-sm text-cyan-700 cursor-pointer underline">
+                        Learn how it works
+                    </p>
                 </div>
             </div>
         </div>

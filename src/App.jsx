@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { useAuthContext } from './hooks/useAuthContext';
 import Products from "./pages/Products";
+import Footer from "./components/Footer";
 
 function App() {
   const { user } = useAuthContext();
@@ -18,6 +19,7 @@ function App() {
         <Route path="/register" element={ user ? <Navigate to='/' /> : <Signup/>} />
         <Route path="/products" element={<Products />} />
       </Routes>
+      <Footer/>
     </div>
   );
 }

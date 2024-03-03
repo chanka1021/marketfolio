@@ -1,5 +1,5 @@
-import { BiCategory } from "react-icons/bi";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
+import { BiCategory } from "react-icons/bi";
 import { LiaLaptopSolid } from "react-icons/lia";
 import { FiSmartphone } from "react-icons/fi";
 import { BiJoystickButton } from "react-icons/bi";
@@ -22,108 +22,129 @@ import { MdSportsVolleyball } from "react-icons/md";
 
 export const Categories = [
   {
+    id: "1",
     name: "All Categories",
     icon: <BiCategory />,
-    color : "#1d4dcb"
+    color: "#1d4dcb"
   },
   {
+    id: "2",
     name: "Electronics",
-    icon : <HiOutlineComputerDesktop/>,
-    color : "#f0464a",
-    childerns : [
+    icon: <HiOutlineComputerDesktop />,
+    color: "#f0464a",
+    children: [
       {
+        id: "2.1",
         name: "Computers",
-        icon : <LiaLaptopSolid/>
+        icon: <LiaLaptopSolid />
       },
       {
+        id: "2.2",
         name: "Phones & Tablets",
-        icon : <FiSmartphone/>
+        icon: <FiSmartphone />
       },
       {
+        id: "2.3",
         name: "Tv & Audio",
-        icon : <PiTelevisionSimpleBold/>
+        icon: <PiTelevisionSimpleBold />
       },
       {
+        id: "2.4",
         name: "Gaming & consols",
-        icon : <BiJoystickButton/>
+        icon: <BiJoystickButton />
       },
       {
+        id: "2.5",
         name: "Photo & Video",
-        icon : <BsCameraReels/>
+        icon: <BsCameraReels />
       }
-  ]
+    ]
   },
   {
-    name:"Home & Garden",
-    color : "#1ad76a",
-    icon : <GiSofa/>
+    id: "3",
+    name: "Home & Garden",
+    color: "#1ad76a",
+    icon: <GiSofa />
   },
   {
-    name:"Fashion",
-    color : '#ffff77',
-    icon : <GiClothes />,
-    childerns:[
+    id: "4",
+    name: "Fashion",
+    color: "#ffff77",
+    icon: <GiClothes />,
+    children: [
       {
+        id: "4.1",
         name: "Men",
-        icon : <FaMale/>
+        icon: <FaMale />
       },
       {
+        id: "4.2",
         name: "Women",
-        icon : <FaFemale/>
+        icon: <FaFemale />
       },
       {
-        name:"Jewerly & Watches",
-        icon : <GiWatch/>
+        id: "4.3",
+        name: "Jewelry & Watches",
+        icon: <GiWatch />
       },
       {
-        name:"Shoes",
-        icon : <GiSonicShoes/>
+        id: "4.4",
+        name: "Shoes",
+        icon: <GiSonicShoes />
       }
     ]
   },
   {
-    name:"Auto Parts",
-    color : "#ff8000",
-    icon : <GiGears/>,
-    childerns : [
+    id: "5",
+    name: "Auto Parts",
+    color: "#ff8000",
+    icon: <GiGears />,
+    children: [
       {
+        id: "5.1",
         name: "Scooter Parts",
-        icon : <MdElectricScooter/>
+        icon: <MdElectricScooter />
       },
       {
+        id: "5.2",
         name: "GPS & Radars",
-        icon : <GiGps/>
+        icon: <GiGps />
       },
       {
+        id: "5.3",
         name: "Car Parts",
-        icon : <GiCarSeat />
+        icon: <GiCarSeat />
       }
     ]
   },
   {
-    name:'Collectibles',
-    color : '#800040',
-    icon : <CgCardSpades/>
+    id: "6",
+    name: "Collectibles",
+    color: "#800040",
+    icon: <CgCardSpades />
   },
   {
-    name:'Pet Supplies',
-    color : '#804000',
-    icon : <MdPets/>,
-    childerns : [
+    id: "7",
+    name: "Pet Supplies",
+    color: "#804000",
+    icon: <MdPets />,
+    children: [
       {
+        id: "7.1",
         name: "Dog",
-        icon : <LuDog/>
+        icon: <LuDog />
       },
       {
+        id: "7.2",
         name: "Cat",
-        icon : <LuCat/>
+        icon: <LuCat />
       }
     ]
   },
   {
-    name:'Sports & Fitness',
-    color : '#408080',
-    icon : <MdSportsVolleyball/>
+    id: "8",
+    name: "Sports & Fitness",
+    color: "#408080",
+    icon: <MdSportsVolleyball />
   }
-
 ];
