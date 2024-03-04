@@ -3,19 +3,8 @@ import {
   Button,
   Input,
   InputGroup,
-  InputLeftElement,
   useDisclosure,
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
+
 } from "@chakra-ui/react";
 import { CiSearch } from "react-icons/ci";
 import { MdNavigateNext } from "react-icons/md";
@@ -24,17 +13,17 @@ import { FaTreeCity } from "react-icons/fa6";
 import { Cities } from "./../data/cities";
 import CategorySelectorDrawer from './Drawers/CategorySelectorDrawer';
 import CitySelectorDrawer from './Drawers/CitySelectorDrawer';
+import { useSearch } from "../context/FilterContext";
 
 function Searchbar() {
   // State variables for selected category, filtered cities, and city selection modal
-  const [selectedCategory, setSelectedCategory] = useState(Categories[0]);
   const [filteredCities, setFilteredCities] = useState(Cities);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
-  const [selectedCity, setSelectedCity] = useState("ALL");
   // Refs for buttons to trigger modals
   const btnRef = useRef();
   const btnRef2 = useRef();
+  const { selectedCategory, setSelectedCategory, selectedCity, setSelectedCity } = useSearch();
 
   // Function to handle category selection
   const handleCategoryClick = (category, child) => {
@@ -53,6 +42,7 @@ function Searchbar() {
     onClose();
   };
 
+
   // Function to handle city selection
   const handleCitySelection = (city) => {
       setSelectedCity(city);
@@ -60,126 +50,6 @@ function Searchbar() {
       onClose2();
   };
 
-  // JSX for category selection modal
- /*  const categorySelector = (
-    <Drawer
-      isOpen={isOpen}
-      placement="right"
-      onClose={onClose}
-      finalFocusRef={btnRef}
-      size={"sm"}
-    >
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader borderBottomWidth={1}>Select a category</DrawerHeader>
-        <DrawerBody>
-          {Categories.map((category) =>
-            category.childrens ? (
-              <Accordion allowToggle key={category.id}>
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton w={"100%"} justifyContent={"start"}>
-                      <div className="flex items-center gap-2 font-semibold">
-                        <a style={{ color: `${category.color}` }} className="text-xl pr-2 ">
-                          {category.icon}
-                        </a>
-                        {category.name}
-                      </div>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel>
-                    {category.childrens.map((child) => (
-                      <Button
-                        bg={"white"}
-                        padding={"10px 20px"}
-                        justifyContent={"start"}
-                        w={"100%"}
-                        onClick={() => handleCategoryClick(category, child)}
-                        leftIcon={
-                          <a style={{ color: `${category.color}` }} className="text-xl pr-2">
-                            {child.icon}
-                          </a>
-                        }
-                        key={child.id}
-                      >
-                        {child.name}
-                      </Button>
-                    ))}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            ) : (
-              <Button
-                w={"100%"}
-                justifyContent={"start"}
-                bg={"white"}
-                onClick={() => handleCategoryClick(category)}
-                leftIcon={
-                  <a style={{ color: `${category.color}` }} className="text-xl pr-2">
-                    {category.icon}
-                  </a>
-                }
-                key={category.id}
-              >
-                {category.name}
-              </Button>
-            )
-          )}
-        </DrawerBody>
-      </DrawerContent>
-    </Drawer>
-  ); */
-
-  // JSX for city selection modal
- /*  const citySelector = (
-    <Drawer
-      isOpen={isOpen2}
-      placement="right"
-      onClose={onClose2}
-      finalFocusRef={btnRef2}
-    >
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader>Select City</DrawerHeader>
-
-        <DrawerBody>
-          <InputGroup>
-            <InputLeftElement pointerEvents="none">
-              <CiSearch />
-            </InputLeftElement>
-            <Input
-              type="tel"
-              placeholder="Search City"
-              borderRadius={40}
-              onChange={(e) => {
-                const searchValue = e.target.value.toLowerCase();
-                const filteredCities = Cities.filter((city) =>
-                  city.toLowerCase().startsWith(searchValue)
-                );
-                setFilteredCities(filteredCities);
-              }}
-            />
-          </InputGroup>
-          {filteredCities.map((city) => (
-            <Button
-              onClick={() => handleCitySelection(city)}
-              py={"5px"}
-              pl={"5px"}
-              w={"100%"}
-              key={city}
-              bg={"white"}
-            >
-              {city}
-            </Button>
-          ))}
-        </DrawerBody>
-      </DrawerContent>
-    </Drawer>
-  );
- */
   return (
     <div className="w-full shadow-md ">
       <div className="w-full xl:px-60 md:px-16 md:flex items-center gap-2 justify-between py-4">

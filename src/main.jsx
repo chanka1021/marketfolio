@@ -6,16 +6,18 @@ import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
 import "aos/dist/aos.css";
+import { FilterProvider } from "./context/FilterContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-
   <React.StrictMode>
     <AuthContextProvider>
-    <BrowserRouter>
-      <ChakraProvider>
-        <App />
-      </ChakraProvider>
-    </BrowserRouter>
+      <FilterProvider>
+        <BrowserRouter>
+          <ChakraProvider>
+            <App />
+          </ChakraProvider>
+        </BrowserRouter>
+      </FilterProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

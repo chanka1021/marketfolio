@@ -4,12 +4,12 @@ import { Categories } from './../../data/categories';
 
 function CategorySelectorDrawer({ isOpen, onClose, finalFocusRef, handleCategoryClick }) {
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} finalFocusRef={finalFocusRef}>
+    <Drawer isOpen={isOpen} onClose={onClose} finalFocusRef={finalFocusRef} size={'sm'}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerHeader borderBottomWidth={1}>Select a category</DrawerHeader>
-        <DrawerBody>
+        <DrawerBody >
           {Categories.map((category) =>
             category.childrens ? (
               <Accordion allowToggle key={category.id}>
