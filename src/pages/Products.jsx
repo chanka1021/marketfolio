@@ -38,7 +38,7 @@ function Products() {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
+  const x = Categories[1]
   return (
     <div className="w-full">
       <Searchbar />
@@ -52,21 +52,25 @@ function Products() {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">ALL</BreadcrumbLink>
+            <BreadcrumbLink href="#">{x.name}</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         <div className="flex flex-wrap py-4 gap-1">
-          {Categories.map((category, index) => (
+          {x.childrens ? (
+          x.childrens.map((category, index) => (
             <button
               key={index}
               className="hover:bg-blue-200 bg-slate-200 flex items-center text-black font-bold py-2 px-4 rounded-full"
             >
-              <a style={{ color: `${category.color}` }} className="text-xl mx-2 ">
+              <a style={{ color: `${x.color}` }} className="text-xl mx-2 ">
                 {category.icon}{" "}
               </a>
               {category.name}
             </button>
-          ))}
+          ))):(
+            <></>
+          )
+          }
           <button onClick={onOpen} className="hover:bg-blue-200 bg-slate-200 flex items-center text-black font-bold py-2 px-4 rounded-full">
             <MdOutlinePriceChange className="text-xl mx-2 text-green-900 " />
             Price

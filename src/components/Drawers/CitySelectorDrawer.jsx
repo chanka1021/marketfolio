@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   DrawerOverlay,
@@ -19,8 +19,17 @@ function CitySelectorDrawer({
   onClose,
   finalFocusRef,
   handleCitySelection,
-  filteredCities,
 }) {
+  const [filteredCities, setFilteredCities] = useState(Cities);
+
+  const handleSearch = (e) => {
+    const searchValue = e.target.value.toLowerCase();
+    const filtered = Cities.filter((city) =>
+      city.toLowerCase().startsWith(searchValue)
+    );
+    setFilteredCities(filtered);
+  };
+
   return (
     <Drawer
       isOpen={isOpen}
@@ -38,16 +47,10 @@ function CitySelectorDrawer({
               <CiSearch />
             </InputLeftElement>
             <Input
-              type="tel"
+              type="text"
               placeholder="Search City"
               borderRadius={40}
-              onChange={(e) => {
-                const searchValue = e.target.value.toLowerCase();
-                const filteredCities = Cities.filter((city) =>
-                  city.toLowerCase().startsWith(searchValue)
-                );
-                filteredCities(filteredCities);
-              }}
+              onChange={handleSearch}
             />
           </InputGroup>
           {filteredCities.map((city) => (
