@@ -6,6 +6,8 @@ import Signup from "./pages/Signup";
 import { useAuthContext } from './hooks/useAuthContext';
 import Products from "./pages/Products";
 import Footer from "./components/Footer";
+import UserSettings from "./pages/UserSettings";
+import Settings from "./components/User settings/Settings";
 
 function App() {
   const { user } = useAuthContext();
@@ -18,6 +20,9 @@ function App() {
         <Route path="/login" element= { user ? <Navigate to='/' /> : <Login />} />
         <Route path="/register" element={ user ? <Navigate to='/' /> : <Signup/>} />
         <Route path="/products" element={<Products />} />
+        <Route path="/account/:tab" element={ user? <UserSettings/> :<Navigate  to='/login' />} />
+        <Route path="/account" element={<Navigate to="/account/listings"  />} />
+        <Route path='/account/settings/:tab' element={ user? <Settings/> :<Navigate  to='/login' />} />
       </Routes>
       <Footer/>
     </div>

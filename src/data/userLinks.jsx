@@ -1,9 +1,9 @@
 import { BsViewList } from "react-icons/bs";
-import { FiShoppingCart } from "react-icons/fi";
 import { IoIosSettings } from "react-icons/io";
+import { BsFillBagHeartFill } from "react-icons/bs";
 
 export const UserLinks = [
-    { name: "My listings", link: "/listings", icon: <BsViewList /> },
-    { name: "My orders", link: "/orders", icon: <FiShoppingCart /> },
-    { name: "Settings", link: "/settings", icon: <IoIosSettings /> },
+    { name: "My listings", link: "/account/listings", icon: <BsViewList /> },
+    { name: "My favourites", link: "/account/fav", icon: <BsFillBagHeartFill /> },
+    { name: "Settings", link: "/account/settings", icon: <IoIosSettings /> },
   ];

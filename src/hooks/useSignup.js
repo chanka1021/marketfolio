@@ -12,7 +12,7 @@ export const useSignup = () => {
     setIsPending(true);
 
     try {
-      const response = await axios.post("http://localhost:2005/user/signup", {
+      const response = await axios.post("https://marketfolio-be.onrender.com/user/signup", {
         name,
         email,
         password,
