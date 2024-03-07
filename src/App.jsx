@@ -1,4 +1,4 @@
-import { Route, Routes ,Navigate } from "react-router-dom";
+import { Route, Routes ,Navigate, Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -20,9 +20,10 @@ function App() {
         <Route path="/login" element= { user ? <Navigate to='/' /> : <Login />} />
         <Route path="/register" element={ user ? <Navigate to='/' /> : <Signup/>} />
         <Route path="/products" element={<Products />} />
-        <Route path="/account/:tab" element={ user? <UserSettings/> :<Navigate  to='/login' />} />
+        <Route path="/account/*" element={ user? <UserSettings/> : <Navigate  to='/login' />} />
+        <Route path="/account/:tab" element={ user? <UserSettings/> : <Navigate  to='/login' />} />
         <Route path="/account" element={<Navigate to="/account/listings"  />} />
-        <Route path='/account/settings/:tab' element={ user? <Settings/> :<Navigate  to='/login' />} />
+        <Route path='/account/settings/:tab' element={ user? <Settings/> : <Navigate  to='/login' />} />
       </Routes>
       <Footer/>
     </div>

@@ -20,7 +20,6 @@ function UserSettings() {
         <TabList>
           {UserLinks.map((link, index) => (
             <Tab key={index}>
-              {" "}
               <a className=" text-xl pr-2">{link.icon}</a> {link.name}
             </Tab>
           ))}

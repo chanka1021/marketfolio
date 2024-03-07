@@ -3,12 +3,15 @@ import { Box, FormControl, FormLabel, Input, Select, Button, ButtonGroup } from 
 import { Cities } from './../../data/cities';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useForm } from 'react-hook-form';
+import useUpdateUser from '../../hooks/useUpdateUser';
 
 const UserInfos = () => {
     const { user } = useAuthContext();
-    const { register, handleSubmit, reset, formState: { isDirty } } = useForm({ defaultValues: user });
+    const { register, handleSubmit, reset, formState: { isDirty, errors } } = useForm({ defaultValues: user });
+    const { error, isPending, updateUser } = useUpdateUser();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        await updateUser(user.id, data);
         console.log(data);
     };
 
@@ -20,12 +23,14 @@ const UserInfos = () => {
         <Box as="form" onSubmit={handleSubmit(onSubmit)} p={4}  borderRadius="md">
             <FormControl mb={4}>
                 <FormLabel>Name</FormLabel>
-                <Input type="text" {...register('name')} />
+                <Input type="text" {...register('name', { required: true })} />
+                {errors.name && <span>This field is required</span>}
             </FormControl>
 
             <FormControl mb={4}>
                 <FormLabel>Mobile</FormLabel>
-                <Input type="tel" {...register('phone')} />
+                <Input type="tel" {...register('phone', { required: true })} />
+                {errors.phone && <span>This field is required</span>}
             </FormControl>
 
             <FormControl mb={4}>
@@ -48,6 +53,7 @@ const UserInfos = () => {
                 {isDirty && <Button colorScheme="red" onClick={handleCancelChanges}>Cancel</Button>}
                 <Button type="submit" colorScheme="blue">Save</Button>
             </ButtonGroup>
+            {error && <p>{error}</p>}
         </Box>
     );
 };
