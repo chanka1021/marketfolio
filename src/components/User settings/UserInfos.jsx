@@ -12,7 +12,6 @@ const UserInfos = () => {
 
     const onSubmit = async (data) => {
         await updateUser(user.id, data);
-        console.log(data);
     };
 
     const handleCancelChanges = () => {
@@ -52,6 +51,7 @@ const UserInfos = () => {
             <ButtonGroup>
                 {isDirty && <Button colorScheme="red" onClick={handleCancelChanges}>Cancel</Button>}
                 <Button type="submit" colorScheme="blue">Save</Button>
+                {isPending && <Button colorScheme="blue" isLoading>Loading</Button>}
             </ButtonGroup>
             {error && <p>{error}</p>}
         </Box>

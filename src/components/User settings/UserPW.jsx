@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
-import { Box, Button, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input, VStack, useToast } from '@chakra-ui/react';
+import useUpdateUser from '../../hooks/useUpdateUser';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 const UserPW = () => {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
-
+    const { error, isPending, updateUser } = useUpdateUser();
+    const { user } = useAuthContext();
+const toast = useToast();
     const handleSubmit = (e) => {
-        //check if the new password and the repeat password are the same
+        e.preventDefault();
         if (newPassword !== repeatPassword) {
-            alert('Passwords do not match');
+            toast({
+                title: "Passwords don't match",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
             return;
         }
-        alert('Password changed');
-        e.preventDefault();
-        // Add your password change logic here
+        updateUser(user.id, { password: newPassword }, password);
+        //clear field 
+        setPassword('');
+        setNewPassword('');
+        setRepeatPassword('');
+
     };
 
     return (
@@ -48,6 +60,7 @@ const UserPW = () => {
                     <Button type="submit" colorScheme="blue">
                         Change Password
                     </Button>
+                    {error && <p>{error}</p>}
                 </VStack>
             </form>
         </Box>
