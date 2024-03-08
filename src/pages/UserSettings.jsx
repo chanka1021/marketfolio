@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserLinks } from "../data/userLinks";
 import Settings from "../components/User settings/Settings";
+import MyListings from "../components/Listings/MyListings";
 
 function UserSettings() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function UserSettings() {
         </TabList>
         <TabPanels>
           <TabPanel >
-            <div>1</div>
+            <MyListings />
           </TabPanel>
           <TabPanel >
             <div>2</div>
