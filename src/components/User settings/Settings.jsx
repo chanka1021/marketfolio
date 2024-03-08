@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { BsChevronDoubleRight } from "react-icons/bs";
 import UserInfos from "./UserInfos";
 import UserPW from "./UserPW";
+import NotificationMngmnt from "./NotificationMngmnt";
 
 function Settings() {
   const indexes = [
@@ -20,7 +21,7 @@ function Settings() {
     {
       index: "notif",
       title: "Notification Settings",
-      component: <p>Notification Settings</p>,
+      component: <NotificationMngmnt/>,
     },
   ];
 
