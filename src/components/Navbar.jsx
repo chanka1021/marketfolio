@@ -18,8 +18,6 @@ function Navbar() {
     { name: "Contact", link: "/contact", icon: <IoMdContacts /> },
   ];
 
- 
-
   const { user } = useAuthContext();
 
   let [open, setOpen] = useState(false);
@@ -38,10 +36,10 @@ function Navbar() {
     <div className="shadow-md w-full relative top-0 left-0 ">
       <div className="xl:px-60 md:px-12 py-4 px-7 md:flex items-center justify-between">
         <Link to="/">
-        <div className="flex cursor-pointer items-center gap-2">
-          <img src={logo} alt="logo" className="w-8" />
-          <h3 className="text-2xl font-mono font-bold">MarketFolio</h3>
-        </div>
+          <div className="flex cursor-pointer items-center gap-2">
+            <img src={logo} alt="logo" className="w-8" />
+            <h3 className="text-2xl font-mono font-bold">MarketFolio</h3>
+          </div>
         </Link>
         <div
           onClick={() => setOpen(!open)}
@@ -72,7 +70,7 @@ function Navbar() {
                     </a>
                     Login
                   </button>
-                  <SellBtn/>
+                  <SellBtn />
                 </div>
               </span>
             )}
@@ -105,12 +103,12 @@ function Navbar() {
                 </div>
               )}
             </div>
-            <button className="btn w-fit items-center flex bg-blue-600 text-white md:ml-8  px-5 py-1 rounded duration-500 md:static">
-              <a>
+            <Link to="/insert">
+              <button className="btn w-fit items-center flex bg-blue-600 text-white md:ml-8  px-5 py-1 rounded duration-500 md:static">
                 <MdOutlineAddToPhotos className="mr-2" />
-              </a>
-              sell
-            </button>
+                sell
+              </button>
+            </Link>
           </span>
         </ul>
       </div>

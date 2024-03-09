@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UserLinks } from "../data/userLinks";
 import Settings from "../components/User settings/Settings";
 import MyListings from "../components/Listings/MyListings";
+import Myfav from "../components/Listings/Myfav";
 
 function UserSettings() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function UserSettings() {
             <MyListings />
           </TabPanel>
           <TabPanel >
-            <div>2</div>
+            <Myfav/>
           </TabPanel>
           <TabPanel >
             <Settings />
