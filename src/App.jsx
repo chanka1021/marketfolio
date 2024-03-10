@@ -14,21 +14,22 @@ function App() {
   const { user } = useAuthContext();
 
   return (
-    <div className="App">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element= { user ? <Navigate to='/' /> : <Login />} />
-        <Route path="/register" element={ user ? <Navigate to='/' /> : <Signup/>} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/account/*" element={ user? <UserSettings/> : <Navigate  to='/login' />} />
-        <Route path="/account/:tab" element={ user? <UserSettings/> : <Navigate  to='/login' />} />
-        <Route path="/account" element={<Navigate to="/account/listings"  />} />
-        <Route path="/insert" element={<Insert/>} />
-
-        <Route path='/account/settings/:tab' element={ user? <Settings/> : <Navigate  to='/login' />} />
-      </Routes>
-      <Footer/>
+      <div className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element= { user ? <Navigate to='/' /> : <Login />} />
+          <Route path="/register" element={ user ? <Navigate to='/' /> : <Signup/>} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/account/*" element={ user? <UserSettings/> : <Navigate  to='/login' />} />
+          <Route path="/account/:tab" element={ user? <UserSettings/> : <Navigate  to='/login' />} />
+          <Route path="/account" element={<Navigate to="/account/listings"  />} />
+          <Route path="/insert" element={<Insert/>} />
+          <Route path='/account/settings/:tab' element={ user? <Settings/> : <Navigate  to='/login' />} />
+        </Routes>
+      </div>
+      <Footer className="mt-auto" />
     </div>
   );
 }

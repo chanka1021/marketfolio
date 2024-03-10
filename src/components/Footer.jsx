@@ -4,7 +4,7 @@ import img from "../assets/logo.png";
 function Footer() {
   return (
     <>
-      <footer className="bg-[#eef1f3] mt-10">
+      <footer className="bg-[#eef1f3] mt-10 bottom-0">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
