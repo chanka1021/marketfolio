@@ -67,6 +67,7 @@ function GeneralInformation(props) {
         isOpen={isOpen}
         onClose={onClose}
         handleCategoryClick={handleCatClick}
+        inInsert
       />
     </div>
   );

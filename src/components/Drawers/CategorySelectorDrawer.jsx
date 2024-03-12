@@ -2,7 +2,7 @@ import React from "react";
 import { Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Button } from "@chakra-ui/react";
 import { Categories } from './../../data/categories';
 
-function CategorySelectorDrawer({ isOpen, onClose, finalFocusRef, handleCategoryClick }) {
+function CategorySelectorDrawer({ isOpen, onClose, finalFocusRef, handleCategoryClick, inInsert }) {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} finalFocusRef={finalFocusRef} size={'sm'}>
       <DrawerOverlay />
@@ -10,7 +10,7 @@ function CategorySelectorDrawer({ isOpen, onClose, finalFocusRef, handleCategory
         <DrawerCloseButton />
         <DrawerHeader borderBottomWidth={1}>Select a category</DrawerHeader>
         <DrawerBody >
-          {Categories.map((category) =>
+          {Categories.slice(inInsert ? 1 : 0).map((category) =>
             category.childrens ? (
               <Accordion allowToggle key={category.id}>
                 <AccordionItem>
