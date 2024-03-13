@@ -4,7 +4,6 @@ import { TbTextScan2 } from "react-icons/tb";
 import { HiOutlinePencil } from "react-icons/hi";
 import { TbPhotoCheck } from "react-icons/tb";
 import { TbFlagCheck } from "react-icons/tb";
-import { Categories } from "./../data/categories";
 import { useAuthContext } from "./../hooks/useAuthContext";
 import GeneralInformation from "../components/Insert Listing/GeneralInformation";
 import ListingDetails from "../components/Insert Listing/ListingDetails";

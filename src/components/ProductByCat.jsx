@@ -22,7 +22,7 @@ function ProductByCat({ id }) {
     centerMode: true,
     slidesToShow: 4,
     nextArrow: <FcNext />,
-    prevArrow: <FcPrevious className="text-black" />,
+    prevArrow: <FcPrevious/>,
     slidesToScroll: 1,
     responsive: [
       { breakpoint: 1280, settings: { slidesToShow: 3, slidesToScroll: 2 } },
