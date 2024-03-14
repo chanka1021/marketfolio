@@ -10,11 +10,12 @@ import ListingDetails from "../components/Insert Listing/ListingDetails";
 import Photos from "../components/Insert Listing/Photos";
 import Publish from "../components/Insert Listing/Publish";
 import { Button, useToast } from "@chakra-ui/react";
-import { GrFormPrevious,GrFormNext  } from "react-icons/gr";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import { useCreateListing } from "../hooks/useCreateListing";
 
 function Insert() {
   const { user } = useAuthContext();
-  const [category, setCategory] = useState('null');
+  const [category, setCategory] = useState("null");
   const [city, setCity] = useState(user.city);
   const [address, setAddress] = useState("");
   const [title, setTitle] = useState("");
@@ -24,14 +25,16 @@ function Insert() {
   const [error, setError] = useState([]);
   const toast = useToast();
 
+  const { createListing , isPending , fail } = useCreateListing();
+
   const data = {
-    cat: category,
+    cat: category.name,
     city: city,
     address: address,
-    title: title,
+    name: title,
     price: price,
     desc: desc,
-    photos: photos
+    photos: photos,
   };
 
   const checkFields = () => {
@@ -60,23 +63,34 @@ function Insert() {
     setError(errors);
   };
 
-  const submit = () => {
+  const submit = async () => {
     checkFields();
     if (error.length === 0) {
-      /// suiiiii
-      console.log(data);
-    } else {
-      error.forEach(err => {
-        toast({
-          title: err,
-          status: "error",
-          duration: 1000,
-          isClosable: true
-        });
-      });
-    }
-  };
- 
+        try {
+            await createListing(data);
+            toast({
+                title: "Listing created",
+                status: "success",
+                duration: 1000,
+                isClosable: true
+            });
+            console.log(data);
+
+        } catch (fail) {
+            toast({
+                title: "Error",
+                description: fail.response?.data?.error || "Failed to create listing",
+                status: "error",
+                duration: 1000,
+                isClosable: true
+            });
+            console.error("Error creating listing:", fail);
+        }
+    } 
+};
+
+
+
   const steps = [
     {
       title: "General Information",
@@ -91,7 +105,7 @@ function Insert() {
           address={address}
           setAddress={setAddress}
         />
-      )
+      ),
     },
     {
       title: "Listing Details",
@@ -106,35 +120,60 @@ function Insert() {
           title={title}
           setTitle={setTitle}
         />
-      )
+      ),
     },
     {
       title: "Listing Photos",
       description: "Add good quality photos",
       icon: <TbPhotoCheck />,
-      content: <Photos photos={photos} setPhotos={setPhotos} />
+      content: <Photos photos={photos} setPhotos={setPhotos} />,
     },
     {
       title: "Listing Publication",
       description: "Publish and boost your listing",
       icon: <TbFlagCheck />,
-      content: <Publish error={error} listing={data} />
-    }
+      content: <Publish error={error} listing={data} />,
+    },
   ];
 
   const submitBtn = (
-    <Button colorScheme="blue" leftIcon={<TbFlagCheck className="mr-2 text-2xl"  />} onClick={submit} isDisabled={error.length !== 0} >Publish</Button>
-  )
+    <Button
+      colorScheme="blue"
+      leftIcon={<TbFlagCheck className="mr-2 text-2xl" />}
+      isDisabled={error.length !== 0 || isPending}
+    >
+      {isPending ? "Submitting..." : "Publish"}
+    </Button>
+  );
   const continueBtn = (
-    <Button colorScheme="green" leftIcon={< GrFormNext className="mr-2 text-2xl"  />} onClick={checkFields} >Continue</Button>
-  )
+    <Button
+      colorScheme="green"
+      leftIcon={<GrFormNext className="mr-2 text-2xl" />}
+      onClick={checkFields}
+    >
+      Continue
+    </Button>
+  );
   const prevBtn = (
-    <Button colorScheme="red" leftIcon={< GrFormPrevious className="mr-2 text-2xl"  />} onClick={checkFields} >Previous</Button>
-  )
+    <Button
+      colorScheme="red"
+      leftIcon={<GrFormPrevious className="mr-2 text-2xl" />}
+      onClick={checkFields}
+    >
+      Previous
+    </Button>
+  );
 
   return (
     <div className="w-full xl:px-60 md:px-20 items-center text-lg gap-2 justify-between py-4">
-      <Stepper backBtn ={prevBtn} continueBtn={continueBtn} submitBtn={submitBtn} onContinue={checkFields} onSubmit={submit} allowClickControl={false}>
+      <Stepper
+        backBtn={prevBtn}
+        continueBtn={continueBtn}
+        submitBtn={submitBtn}
+        onContinue={checkFields}
+        onSubmit={submit}
+        allowClickControl={false}
+      >
         {steps.map((step, index) => (
           <div key={index}>
             <div className="flex justify-center pt-5 items-center font-[Poppins] text-lg">
@@ -145,7 +184,6 @@ function Insert() {
           </div>
         ))}
       </Stepper>
-   
     </div>
   );
 }
