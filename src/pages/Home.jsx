@@ -11,9 +11,9 @@ function Home() {
       <CategorieSections/>
 
       <ProductByCat id="1"/>
-      <ProductByCat id="1"/>
-      <ProductByCat id="1"/>
-      <ProductByCat id="1"/>
+      <ProductByCat id="2"/>
+      <ProductByCat id="3"/>
+      <ProductByCat id="4"/>
 
       homesasas
       asas

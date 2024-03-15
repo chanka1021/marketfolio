@@ -12,24 +12,34 @@ export const useCreateListing = () => {
         setIsPending(true);
 
         try {
-            const response = await axios.post(
-                "http://localhost:2005/listing/create",
-                {
-                    name: data.name,
-                    category: data.cat,
-                    description: data.desc,
-                    price: data.price,
-                    city: data.city,
-                    seller: user.id, 
-                    address: data.address,
-                    // images: data.photos
-                }
-            );
+            const formData = new FormData();
+            formData.append('name', data.name);
+            formData.append('category', data.cat);
+            formData.append('description', data.desc);
+            formData.append('price', data.price);
+            formData.append('city', data.city);
+            formData.append('seller', user.id); // Assuming you have user data
+            formData.append('address', data.address);
 
+            // Convert image URLs to Blob objects and append them to FormData
+            for (let i = 0; i < data.photos.length; i++) {
+                const response = await fetch(data.photos[i]);
+                const blob = await response.blob();
+                formData.append('photos', blob, `photo_${i}.jpg`); // Adjust filename if necessary
+            }
+
+            const response = await axios.post('https://marketfolio-be.onrender.com/listing/create', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             if (response.status === 200 || response.status === 201) {
                 setIsPending(false);
                 setFail(null);
+                console.log(response.data);
             }
+
+
         } catch (error) {
             setIsPending(false);
             setFail(error.response.data.error);

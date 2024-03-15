@@ -74,17 +74,16 @@ function Insert() {
                 duration: 1000,
                 isClosable: true
             });
-            console.log(data);
 
-        } catch (fail) {
+        } catch (err) {
             toast({
                 title: "Error",
-                description: fail.response?.data?.error || "Failed to create listing",
+                description: err.response?.data?.error || "Failed to create listing",
                 status: "error",
                 duration: 1000,
                 isClosable: true
             });
-            console.error("Error creating listing:", fail);
+            console.error("Error creating listing:", err);
         }
     } 
 };

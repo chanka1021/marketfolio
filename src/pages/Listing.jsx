@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import img from "../assets/test.jpg";
@@ -21,26 +21,63 @@ import {
 } from "@chakra-ui/react";
 import attentionImg from "../assets/attention.png";
 import ProductByCat from "../components/ProductByCat";
+import { useParams } from "react-router-dom";
+import { useGetListing } from "../hooks/useGetListing";
+import { formatDistance } from "date-fns";
 
 const Listing = () => {
   const { user } = useAuthContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const images = [img, img, img, img, img];
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    arrows: true,
-    nextArrow: <FcNext />,
-    prevArrow: <FcPrevious />,
-  };
+  const { id } = useParams();
+  const { error, isPending, getListing } = useGetListing();
+  const [listingData, setListingData] = useState(null);
 
-  const openPhoneModal = () => {
+  useEffect(() => {
+    const fetchListing = async () => {
+      try {
+        const data = await getListing(id);
+        setListingData(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching listing:", error);
+      }
+    };
+
+    fetchListing();
+  }, [id]);
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="w-full flex flex-col mt-20  items-center">
+        <div className="  font-['Poppins'] inline-block "> <h1 className=" bg-gradient-to-r from-rose-400 to-red-500  text-9xl font-bold text-transparent bg-clip-text">Error</h1> </div> 
+          <h1 className="text-6xl bg-gradient-to-r from-stone-500 to-stone-700 text-transparent bg-clip-text   "> Listing not found </h1>           
+      </div>
+    );
+  }
+
+  if (!listingData) {
+    return null; 
+  }
+  const { name, description, city, createdAt, price, category, photos,userInfo } = listingData;
+  const url = "https://marketfolio-be.onrender.com/"
+  const images = photos.map((photo) => {
+    return `${url}${photo.replace('public/', '')}`;
+  });
+    
+ 
+
+ console.log(images)
+  
+  const dateDiff = () => {
+    return formatDistance(new Date(createdAt), new Date())
+  }
+  
+const openPhoneModal = () => {
     onOpen();
   };
 
@@ -59,9 +96,9 @@ const Listing = () => {
           <Image w={"50%"} src={attentionImg} alt="attention" />
           <p className="text-center text-sm text-red-600 ">Attention!</p>
           <p className="text-center mt-5 text-sm text-gray-600 ">
-            You should never send money in advance to the seller by bank transfer
-            or through a money transfer agency when purchasing goods available
-            on the site.
+            You should never send money in advance to the seller by bank
+            transfer or through a money transfer agency when purchasing goods
+            available on the site.
           </p>
           <p className="text-center mt-5 text-sm text-gray-600 ">
             You should always meet the seller at a safe location.
@@ -71,18 +108,29 @@ const Listing = () => {
           </p>
           <button className="mt-5 mb-3 p-2 rounded-md px-6 border border-Cyan flex items-center shadow-xl duration-300 hover:bg-Cyan hover:text-white ">
             <MdCall className="mr-3 text-3xl text-gray-600" />
-            123-4567890
+            {userInfo.phone}
           </button>
         </ModalBody>
       </ModalContent>
     </Modal>
   );
-
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: true,
+    nextArrow: <FcNext />,
+    prevArrow: <FcPrevious />,
+  };
   return (
     <>
       <div className="w-full xl:px-60 md:px-20 flex flex-col py-4">
         <div className="shadow-md p-5">
-          <div className="md:px-20 w-full">
+          <div className="md:px-32 w-full">
             <Slider {...settings}>
               {images.map((img, index) => (
                 <div key={index}>
@@ -99,26 +147,25 @@ const Listing = () => {
           <main className="mt-20">
             <div className="w-full flex flex-col md:flex-row justify-between">
               <div className="mb-5 md:mb-0">
-                <h1 className="text-3xl font-bold">Product Name</h1>
-                <div className="flex flex-col md:flex-row md:gap-5">
+                <h1 className="text-3xl font-bold">{name}</h1>
+                <div className="flex flex-col mt-2 md:flex-row md:gap-5">
                   <div className="text-lg flex items-center font-semibold">
-                    <MdLocationPin className="mr-1" /> Madrid
+                    <MdLocationPin className="mr-1" /> {city}
                   </div>
                   <div className="text-lg flex items-center font-semibold">
-                    <RiTimeFill className="mr-1" /> 3 hours ago{" "}
+                    <RiTimeFill className="mr-1" />  {dateDiff()}
                   </div>
                 </div>
               </div>
               <div>
-                <h1 className="text-3xl text-Cyan font-bold">5000 €</h1>
-                <p className="text-lg font-semibold">Negotiable</p>
+                <h1 className="text-3xl text-Cyan font-bold">{price} €</h1>
               </div>
             </div>
             <div className="p-5 mt-5 flex flex-col md:flex-row border-t border-b justify-between items-center">
               <div className="flex items-center mb-5 md:mb-0">
                 <Image src={pp} borderRadius="full" />
                 <div className="ml-0 mt-3 md:ml-5 md:mt-0">
-                  <h1 className="text-2xl font-bold">{user.name}</h1>
+                  <h1 className="text-2xl font-bold">{userInfo.name}</h1>
                 </div>
               </div>
               <div className="flex items-center justify-between gap-2">
@@ -137,10 +184,7 @@ const Listing = () => {
             <div className="mt-5">
               <h1 className="text-lg font-semibold">Description</h1>
               <p className="text-gray-600">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
+                {description}
               </p>
             </div>
           </main>
@@ -148,7 +192,9 @@ const Listing = () => {
         {phoneModal}
       </div>
       <div className="p-0 mt-10">
-        <h3 className="text-2xl font-bold  xl:px-60 md:px-20 ">More listings from this category</h3>
+        <h3 className="text-2xl font-bold  xl:px-60 md:px-20 ">
+          More listings from this category
+        </h3>
         <ProductByCat id="1" />
       </div>
     </>

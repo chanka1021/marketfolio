@@ -14,7 +14,6 @@ import Listing from "./pages/Listing";
 function App() {
   const { user } = useAuthContext();
 
-  // Wait for user data to be available
   if (user === null) {
     return <div>Loading...</div>;
   }
