@@ -25,9 +25,18 @@ function Insert() {
   const [error, setError] = useState([]);
   const toast = useToast();
 
-  const { createListing , isPending , fail } = useCreateListing();
+  const { createListing , isPending } = useCreateListing();
 
   const data = {
+    cat: category,
+    city: city,
+    address: address,
+    name: title,
+    price: price,
+    desc: desc,
+    photos: photos,
+  };
+  const data2insert = {
     cat: category.name,
     city: city,
     address: address,
@@ -36,7 +45,6 @@ function Insert() {
     desc: desc,
     photos: photos,
   };
-
   const checkFields = () => {
     let errors = [];
     if (category === "") {
@@ -67,7 +75,7 @@ function Insert() {
     checkFields();
     if (error.length === 0) {
         try {
-            await createListing(data);
+            await createListing(data2insert);
             toast({
                 title: "Listing created",
                 status: "success",
@@ -85,6 +93,8 @@ function Insert() {
             });
             console.error("Error creating listing:", err);
         }
+        //rederict to listings 
+        window.location.href = "/account/listings";
     } 
 };
 

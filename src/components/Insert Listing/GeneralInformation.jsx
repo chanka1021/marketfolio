@@ -12,8 +12,20 @@ function GeneralInformation(props) {
     onClose: onClose2,
   } = useDisclosure();
 
-  const handleCatClick = (cat) => {
-    props.setCategory(cat);
+  const handleCatClick = (category,child) => {
+    const newCategory = child
+    ? {
+        name: child.name,
+        icon: child.icon,
+        color: category.color,
+      }
+    : {
+        name: category.name,
+        icon: category.icon,
+        color: category.color,
+      };
+
+    props.setCategory(newCategory);
     onClose();
   };
   const handleCityClick = (city) => {

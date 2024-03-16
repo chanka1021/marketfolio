@@ -16,7 +16,7 @@ export const useGetListing = () => {
                 setIsPending(false);
                 setError(null);
                 setListing(response.data);
-                return response.data; // Return the data
+                return response.data; 
             } else {
                 setIsPending(false);
                 setError(response.data.error);
@@ -27,6 +27,26 @@ export const useGetListing = () => {
             setError(err.response ? err.response.data.error : "An error occurred");
         }
     };
-    
-    return { listing, error, isPending, getListing };
+     const getListingsOfUser = async (id) => {
+        setError(null);
+        setIsPending(true);
+        try{
+            const res = await axios.get(`https://marketfolio-be.onrender.com/listing/user/${id}`);
+            if (res.status === 200 || res.status === 201) {
+                setIsPending(false);
+                setError(null);
+                setListing(res.data);
+                return res.data; 
+            } else {
+                setIsPending(false);
+                setError(res.data.error);
+            }
+        } catch (err) {
+            console.error(err);
+            setIsPending(false);
+            setError(err.response ? err.response.data.error : "An error occurred");
+        }
+     }
+
+    return { listing, error, isPending, getListing , getListingsOfUser };
 };

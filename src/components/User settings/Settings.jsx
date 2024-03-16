@@ -47,7 +47,7 @@ function Settings() {
         </TabList>
         <TabPanels>
           {indexes.map((tab) => (
-            <TabPanel>
+            <TabPanel key={tab.index} >
               {tab.component}
             </TabPanel>
           ))}

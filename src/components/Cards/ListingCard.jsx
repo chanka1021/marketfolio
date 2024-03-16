@@ -77,7 +77,7 @@ function ListingCard(props) {
         />
         <Box>
           <p className="text-xl font-bold">{props.title}</p>
-          <p className="text-lg font-bold text-green-700">{props.price} dh</p>
+          <p className="text-lg font-bold text-green-700">{props.price} €</p>
           <p>{truncateDescription(props.desc, 100)}</p>
           <p>
             Status:

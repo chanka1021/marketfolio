@@ -1,7 +1,25 @@
-const categories = require('../data/categories');
+import { Categories } from "../data/categories";
 
-function getCategoryByName(name) {
-    return categories.find(category => category.name === name);
+export function getCategoryByName(name) {
+    function searchCategory(category) {
+        if (category.name === name) {
+            return category;
+        }
+        if (category.childrens) {
+            for (const child of category.childrens) {
+                const found = searchCategory(child);
+                if (found) {
+                    return found;
+                }
+            }
+        }
+        return null;
+    }
+    for (const category of Categories) {
+        const found = searchCategory(category);
+        if (found) {
+            return found;
+        }
+    }
+    return null;
 }
-
-module.exports = getCategoryByName;
