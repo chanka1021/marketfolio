@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -10,12 +11,29 @@ import UserSettings from "./pages/UserSettings";
 import Settings from "./components/User settings/Settings";
 import Insert from "./pages/Insert";
 import Listing from "./pages/Listing";
+import { ColorRing } from "react-loader-spinner";
 
 function App() {
-  const { user } = useAuthContext();
+  const { user, isLoading } = useAuthContext();
+  const [loading, setLoading] = useState(true);
 
-  if (user === null) {
-    return <div>Loading...</div>;
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
+  
+  if (loading) {
+    // You can customize the loading indicator here
+    return <div className="flex justify-center items-center h-screen" >
+      <ColorRing
+  visible={true}
+  height="80"
+  width="80"
+  ariaLabel="color-ring-loading"
+  wrapperStyle={{}}
+  wrapperClass="color-ring-wrapper"
+  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+  />
+    </div>;
   }
 
   return (
@@ -30,7 +48,7 @@ function App() {
           <Route path="/account/*" element={user ? <UserSettings /> : <Navigate to="/login" />} />
           <Route path="/account/:tab" element={user ? <UserSettings /> : <Navigate to="/login" />} />
           <Route path="/account" element={<Navigate to="/account/listings" />} />
-          <Route path="/insert" element={<Insert />} />
+          <Route path="/insert" element={user ? <Insert /> : <Navigate to="/login" />} />
           <Route path='/account/settings/:tab' element={user ? <Settings /> : <Navigate to="/login" />} />
           <Route path="/Listing/:id" element={<Listing />} />
         </Routes>

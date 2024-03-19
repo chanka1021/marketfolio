@@ -19,8 +19,8 @@ const useUpdateUser = () => {
         `https://marketfolio-be.onrender.com/user/update/${id}`,
         requestData
       );
-      console.log(requestData);
       if (response.status === 200 || response.status === 201) {
+        console.log(requestData);
         setLoading(false);
         setError(null);
         dispatch({ type: "UPDATE_USER", payload: response.data });

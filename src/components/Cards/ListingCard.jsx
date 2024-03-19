@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Box,
   Image,
@@ -19,6 +19,7 @@ import {
   Textarea,
   InputGroup,
   InputLeftElement,
+  Skeleton,
 } from "@chakra-ui/react";
 import { IoIosOptions } from "react-icons/io";
 import {
@@ -28,77 +29,88 @@ import {
 } from "react-icons/md";
 import { MdOutlineEuro } from "react-icons/md";
 
-function ListingCard(props) {
-  const OverlayOne = () => (
-    <ModalOverlay
-      bg="blackAlpha.300"
-      backdropFilter="blur(10px) hue-rotate(90deg)"
-    />
-  );
+import useUpdateListing from "../../hooks/useUpdateListing";
+import useDeleteListing from "../../hooks/useDeleteListing";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+} from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [overlay, setOverlay] = React.useState(<OverlayOne />);
-  const [newDesc, setNewDesc] = useState(props.desc);
-  const [newPrice, setNewPrice] = useState(props.price); // Added state for price
+function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
+  const { isOpen: isOpenEdit, onOpen: onOpenEdit, onClose: onCloseEdit } =
+    useDisclosure();
+  const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } =
+    useDisclosure();
+  const [newDesc, setNewDesc] = useState(listing.description);
+  const [newPrice, setNewPrice] = useState(listing.price);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const cancelRef = useRef(); // Define cancelRef here
+
 
   const truncateDescription = (text, maxLength) => {
     if (text.length <= maxLength) return text;
     return text.substr(0, maxLength) + "...";
   };
 
-  function CloseModel() {
-    setNewDesc(props.desc);
-    setNewPrice(props.price); 
-    onClose();
-  }
+  const handleSave = () => {
+    const newData = {
+      description: newDesc,
+      price: newPrice,
+    };
+    setDataToUpdate(newData);
+    console.log(newData)
+    handleUpdate();
+    onCloseEdit();
+  };
 
-  function handleClick() {
-    setOverlay(<OverlayOne />);
-    onOpen();
-  }
-
-  function handleSave() {
-    // Call a function to save the changes and pass newPrice to it
-    // For example: props.onSave(newPrice);
-    // Remember to implement the onSave function in the parent component
-    onClose();
-  }
+  const handleDeleteConfirm = () => {
+    handleDelete();
+    onCloseDelete();
+  };
 
   return (
     <>
       <Box
-        key={props.id}
+        key={listing._id}
         className="border rounded-lg mb-6 p-4 flex items-center"
       >
-        <Image
-          src={props.img}
-          alt={props.title}
-          className="h-32 w-32 bg-cover rounded-md mr-4"
-        />
-        <Box>
-          <p className="text-xl font-bold">{props.title}</p>
-          <p className="text-lg font-bold text-green-700">{props.price} €</p>
-          <p>{truncateDescription(props.desc, 100)}</p>
+        <Skeleton isLoaded={imageLoaded} height="120px" width="120px">
+          <img
+            src={listing.photos[0]}
+            alt={listing.name}
+            className="h-32 w-32  object-cover rounded-md mr-4"
+            onLoad={() => setImageLoaded(true)}
+            style={!imageLoaded ? { display: "none" } : {}}
+          />
+        </Skeleton>
+        <div className="ml-5">
+          <p className="text-xl font-bold">{listing.name}</p>
+          <p className="text-lg font-bold text-green-700">{listing.price} €</p>
+          <p>{truncateDescription(listing.description, 100)}</p>
           <p>
-            Status:
+            Status:{" "}
             <span
-              className={
-                props.status === "Published"
-                  ? "text-blue-500"
-                  : "text-orange-500"
-              }
+              className={`text-${
+                listing.status === "Published" ? "blue" : "orange"
+              }-500`}
             >
-              <a className="px-2 text-[poppins] ">{props.status}</a>
+              {listing.status}
             </span>
           </p>
-        </Box>
+        </div>
         <Button variant="ghost" ml="auto">
           <Menu>
             <MenuButton as={Button} variant="ghost">
               <IoIosOptions />
             </MenuButton>
             <MenuList>
-              <MenuItem color={"yellow.500"} onClick={handleClick}>
+              <MenuItem color={"yellow.500"} onClick={onOpenEdit}>
                 <MdOutlineEdit className="mx-4" />
                 Edit
               </MenuItem>
@@ -106,7 +118,7 @@ function ListingCard(props) {
                 <MdOutlineHideImage className="mx-4" />
                 Hide
               </MenuItem>
-              <MenuItem color={"red"}>
+              <MenuItem color={"red"} onClick={onOpenDelete}>
                 <MdDeleteForever className="mx-4" />
                 Delete
               </MenuItem>
@@ -115,42 +127,60 @@ function ListingCard(props) {
         </Button>
       </Box>
 
-      <Modal isCentered isOpen={isOpen} onClose={onClose}>
-        {overlay}
+      <Modal isOpen={isOpenEdit} onClose={onCloseEdit}>
+        <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
         <ModalContent>
-          <ModalHeader>{props.title}</ModalHeader>
+          <ModalHeader>Edit Listing</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {/* ////title */}
-            <h3 className="my-2">Title </h3>
-            <Input isDisabled={true} type="text" value={props.title} />
-            {/* /// desc */}
-            <h3 className="my-2">Description </h3>
+            <h3 className="my-2">Title</h3>
+            <Input isDisabled type="text" value={listing.name} />
+            <h3 className="my-2">Description</h3>
             <Textarea
               type="text"
               value={newDesc}
               onChange={(e) => setNewDesc(e.target.value)}
             />
-            {/* /// price */}
-            <h3 className="my-2">Price </h3>
+            <h3 className="my-2">Price</h3>
             <InputGroup>
               <InputLeftElement pointerEvents="none">
                 <MdOutlineEuro />
               </InputLeftElement>
               <Input
                 type="number"
-                value={newPrice} // Use newPrice state here
-                onChange={(e)=>setNewPrice(e.target.value)} // Handle price change
+                value={newPrice}
+                onChange={(e) => setNewPrice(e.target.value)}
                 placeholder="Price"
               />
             </InputGroup>
           </ModalBody>
           <ModalFooter gap={6}>
-            <Button onClick={CloseModel}>Close</Button>
-            <Button colorScheme="green" onClick=  {()=>{handleSave()}} >Save</Button>
+            <Button onClick={onCloseEdit}>Close</Button>
+            <Button colorScheme="green" onClick={handleSave}>
+              Save
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      <AlertDialog isOpen={isOpenDelete} leastDestructiveRef={cancelRef} onClose={onCloseDelete}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Listing
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button onClick={onCloseDelete}>Cancel</Button>
+              <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 }

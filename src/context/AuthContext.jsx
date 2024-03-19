@@ -7,7 +7,9 @@ export const authReducer = (state, action) => {
     case "LOGIN":
       return { user: action.payload };
     case "UPDATE_USER":
-      return { user: { ...state.user, ...action.payload } }; // Merge existing user with payload
+      const updatedUser = { ...state.user, ...action.payload };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      return { user: updatedUser };
     case "LOGOUT":
       return { user: null };
     default:

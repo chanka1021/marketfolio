@@ -30,9 +30,11 @@ export const useCreateListing = () => {
 
             const response = await axios.post('https://marketfolio-be.onrender.com/listing/create', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    'authorization': `Bearer ${user.token}`
                 }
             });
+            
             if (response.status === 200 || response.status === 201) {
                 setIsPending(false);
                 setFail(null);

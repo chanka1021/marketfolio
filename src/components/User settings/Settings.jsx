@@ -5,6 +5,7 @@ import { BsChevronDoubleRight } from "react-icons/bs";
 import UserInfos from "./UserInfos";
 import UserPW from "./UserPW";
 import NotificationMngmnt from "./NotificationMngmnt";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 function Settings() {
   const indexes = [

@@ -94,7 +94,7 @@ function Insert() {
             console.error("Error creating listing:", err);
         }
         //rederict to listings 
-        window.location.href = "/account/listings";
+       window.location.href = "/account/listings";
     } 
 };
 
