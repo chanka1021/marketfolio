@@ -1,12 +1,10 @@
 import React from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import ProductCard from "./Cards/ProductCard";
 import { Categories } from "../data/categories";
 import { BsXDiamondFill } from "react-icons/bs";
-import { FcNext, FcPrevious } from "react-icons/fc";
-
+import arrowL from "../assets/arrow.svg";
+import arrowR from "../assets/arrow rotated.svg";
 function ProductByCat({ id }) {
   const cat = Categories.find((cat) => cat.id === id);
   if (!cat) {
@@ -21,20 +19,39 @@ function ProductByCat({ id }) {
     arrows: true,
     centerMode: true,
     slidesToShow: 4,
-    nextArrow: <FcNext />,
-    prevArrow: <FcPrevious/>,
+    nextArrow:   <img  src={arrowR} className="w-10 h-10  "  />,
+    prevArrow: <img src={arrowL} className="w-10 h-10"  />,
     slidesToScroll: 1,
-    responsive: [
-      { breakpoint: 1280, settings: { slidesToShow: 3, slidesToScroll: 2 } },
-      { breakpoint: 1024, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } }
-    ]
+      responsive: [
+      {
+        breakpoint: 1367,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+        }
+      },
+      {
+        breakpoint: 1126,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ] 
   };
 
   return (
     <div className="w-full rounded-md overflow-hidden">
-      <div className="w-full xl:px-60 md:px-20 items-center text-lg gap-2 justify-between py-4">
+      <div className="w-full 2xl:px-60   md:px-20 items-center text-lg gap-2 justify-between py-4">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold text-gray-800 flex items-center">
             <a style={{ color: cat.color }} className="mx-2">

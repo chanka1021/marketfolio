@@ -53,9 +53,7 @@ function Insert() {
     if (city === "") {
       errors.push("Select a city");
     }
-    if (address === "") {
-      errors.push("Add an address");
-    }
+   
     if (title === "") {
       errors.push("Add a title");
     }
@@ -94,7 +92,7 @@ function Insert() {
             console.error("Error creating listing:", err);
         }
         //rederict to listings 
-       window.location.href = "/account/listings";
+      window.location.href = "/account/listings";
     } 
 };
 

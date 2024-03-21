@@ -5,7 +5,7 @@ import { Categories } from "../data/categories";
 
 function CategorieSections() {
   return (
-      <div className="w-full xl:px-60 md:px-20 items-center text-lg gap-2 justify-between py-4">
+      <div className="w-full 2xl:px-60 md:px-32 items-center text-lg gap-2 justify-between py-4">
         <div className="flex justify-between items-center w-full px-10 max-sm:px-2">
           <h2 className="text-xl max-sm:text-base">What are you looking for?</h2>
           <div className="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer  max-sm:text-sm">

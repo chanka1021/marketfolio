@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Box, useToast } from "@chakra-ui/react";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import img from "../../assets/test.jpg";
 import ListingCard from "../Cards/ListingCard";
 import img2 from "../../assets/nolisting.png";
 import { useGetListing } from "../../hooks/useGetListing";
-import { useAuthContext } from "./../../hooks/useAuthContext";
 import { Link } from "react-router-dom";
 import useDeleteListing from "../../hooks/useDeleteListing";
 import useUpdateListing from "../../hooks/useUpdateListing";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const MyListings = () => {
   const { getListingsOfUser } = useGetListing();
   const { user } = useAuthContext();
-  const toast = useToast(); // Add toast hook
+  const toast = useToast();
 
-  const [MyListings, setMyListings] = useState([]);
-  const [dataToUpdate , setDataToUpdate] = useState({});
+  const [myListings, setMyListings] = useState([]); 
   const { deleteListing } = useDeleteListing();
   const { updateListing } = useUpdateListing();
 
   useEffect(() => {
-    const fetchMyListings = async () => {
-      try {
-        const data = await getListingsOfUser(user.id);
-        setMyListings(data);
-      } catch (err) {
-        console.error("Error fetching listings:", err);
-      }
-    };
-
     fetchMyListings();
-  }, [user.id, getListingsOfUser]);
+  }, []);
+
+  const fetchMyListings = async () => {
+    try {
+      const data = await getListingsOfUser(user.id);
+      setMyListings(data);
+    } catch (err) {
+      console.error("Error fetching listings:", err);
+    }
+  };
+ 
 
   const handleDelete = async (id) => {
     try {
@@ -43,6 +43,7 @@ const MyListings = () => {
         duration: 3000,
         isClosable: true,
       });
+      fetchMyListings();
     } catch (error) {
       console.error("Error deleting listing:", error);
       toast({
@@ -52,15 +53,12 @@ const MyListings = () => {
         duration: 3000,
         isClosable: true,
       });
-    } finally {
-      // Refetch listings after success or failure
-      fetchMyListings();
     }
   };
 
-  const handleUpdate = async (id, data) => {
+  const handleUpdate = async (id, newData) => {
     try {
-      await updateListing(id, data);
+      await updateListing(id, newData);
       toast({
         title: "Success",
         description: "Listing updated successfully",
@@ -68,20 +66,44 @@ const MyListings = () => {
         duration: 3000,
         isClosable: true,
       });
+      fetchMyListings();
     } catch (error) {
       console.error("Error updating listing:", error);
-    } 
+      toast({
+        title: "Error",
+        description: "Error updating listing",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
-  return MyListings?.length > 0 ? (
+  const handleVisibility = async (id, newStatus) => {
+    try {
+      await updateListing(id, { status: newStatus });
+      toast({
+        title: "Success",
+        description: "Visibility updated to " + newStatus,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      fetchMyListings(); // Now fetchMyListings is accessible here
+    } catch (error) {
+      console.error("Error updating visibility:", error);
+    }
+  };
+
+  return myListings.length > 0 ? (
     <Box>
-      {MyListings.map((listing) => (
+      {myListings.map((listing) => (
         <ListingCard
           key={listing._id}
           handleDelete={() => handleDelete(listing._id)}
           listing={listing}
-          handleUpdate={() => handleUpdate(listing._id, dataToUpdate)} // Adjust the second argument as per your data structure
-          setDataToUpdate={setDataToUpdate} // Pass setData function to update MyListings
+          handleVisibility={(newStatus) => handleVisibility(listing._id, newStatus)}
+          handleUpdate={(newData) => handleUpdate(listing._id, newData)}  
         />
       ))}
     </Box>
@@ -103,3 +125,4 @@ const MyListings = () => {
 };
 
 export default MyListings;
+ 

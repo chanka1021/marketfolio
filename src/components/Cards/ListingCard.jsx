@@ -40,32 +40,44 @@ import {
   AlertDialogOverlay,
   AlertDialogCloseButton,
 } from "@chakra-ui/react";
-import { useToast } from "@chakra-ui/react";
+import { PiCurrencyDollarSimpleFill } from "react-icons/pi";
 
-function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
-  const { isOpen: isOpenEdit, onOpen: onOpenEdit, onClose: onCloseEdit } =
-    useDisclosure();
-  const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } =
-    useDisclosure();
-  const [newDesc, setNewDesc] = useState(listing.description);
-  const [newPrice, setNewPrice] = useState(listing.price);
+function ListingCard({
+  listing,
+  setDataToUpdate,
+  handleVisibility,
+  handleUpdate,
+  handleDelete,
+}) {
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
   const [imageLoaded, setImageLoaded] = useState(false);
   const cancelRef = useRef(); // Define cancelRef here
 
+  const [editFields, setEditFields] = useState({
+    description: listing.description,
+    price: listing.price,
+  });
 
   const truncateDescription = (text, maxLength) => {
     if (text.length <= maxLength) return text;
     return text.substr(0, maxLength) + "...";
   };
 
-  const handleSave = () => {
-    const newData = {
-      description: newDesc,
-      price: newPrice,
-    };
-    setDataToUpdate(newData);
-    console.log(newData)
-    handleUpdate();
+  const handleChangeEdit = (e) => {
+    setEditFields({ ...editFields, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    handleUpdate(editFields); // Pass editFields directly
     onCloseEdit();
   };
 
@@ -74,11 +86,21 @@ function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
     onCloseDelete();
   };
 
+  const handleChangeVisibility = () => {
+    const newStatus = listing.status === "Published" ? "Hidden" : "Published";
+    handleVisibility(newStatus);
+  };
+  const handleSold = () => {
+    const newStatus = "Sold";
+    handleVisibility(newStatus);
+  };
+
   return (
     <>
       <Box
         key={listing._id}
         className="border rounded-lg mb-6 p-4 flex items-center"
+        style={{ boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}
       >
         <Skeleton isLoaded={imageLoaded} height="120px" width="120px">
           <img
@@ -97,14 +119,19 @@ function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
             Status:{" "}
             <span
               className={`text-${
-                listing.status === "Published" ? "blue" : "orange"
-              }-500`}
+                listing.status === "Published" ? "blue" : "red"
+              }-500 font-semibold`}
             >
               {listing.status}
             </span>
           </p>
         </div>
-        <Button variant="ghost" ml="auto">
+        <Box
+          boxShadow={"0px 0px 10px rgba(0, 0, 0, 0.1)"}
+          padding={"0"}
+          borderRadius={"10px"}
+          ml="auto"
+        >
           <Menu>
             <MenuButton as={Button} variant="ghost">
               <IoIosOptions />
@@ -114,9 +141,13 @@ function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
                 <MdOutlineEdit className="mx-4" />
                 Edit
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={handleChangeVisibility}>
                 <MdOutlineHideImage className="mx-4" />
-                Hide
+                {listing.status === "Published" ? "Hide" : "Publish"}
+              </MenuItem>
+              <MenuItem color={"green"} onClick={handleSold}>
+                <PiCurrencyDollarSimpleFill className="mx-4" />
+                Sold
               </MenuItem>
               <MenuItem color={"red"} onClick={onOpenDelete}>
                 <MdDeleteForever className="mx-4" />
@@ -124,7 +155,7 @@ function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
               </MenuItem>
             </MenuList>
           </Menu>
-        </Button>
+        </Box>
       </Box>
 
       <Modal isOpen={isOpenEdit} onClose={onCloseEdit}>
@@ -138,8 +169,9 @@ function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
             <h3 className="my-2">Description</h3>
             <Textarea
               type="text"
-              value={newDesc}
-              onChange={(e) => setNewDesc(e.target.value)}
+              value={editFields.description}
+              onChange={handleChangeEdit}
+              name="description"
             />
             <h3 className="my-2">Price</h3>
             <InputGroup>
@@ -148,9 +180,10 @@ function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
               </InputLeftElement>
               <Input
                 type="number"
-                value={newPrice}
-                onChange={(e) => setNewPrice(e.target.value)}
+                value={editFields.price}
                 placeholder="Price"
+                onChange={handleChangeEdit}
+                name="price"
               />
             </InputGroup>
           </ModalBody>
@@ -163,7 +196,11 @@ function ListingCard({ listing, setDataToUpdate, handleUpdate, handleDelete }) {
         </ModalContent>
       </Modal>
 
-      <AlertDialog isOpen={isOpenDelete} leastDestructiveRef={cancelRef} onClose={onCloseDelete}>
+      <AlertDialog
+        isOpen={isOpenDelete}
+        leastDestructiveRef={cancelRef}
+        onClose={onCloseDelete}
+      >
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">

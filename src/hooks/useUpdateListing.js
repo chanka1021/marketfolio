@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios'; // Import Axios
 import { useAuthContext } from './useAuthContext';
 
 const useUpdateListing = () => {
@@ -11,21 +12,20 @@ const useUpdateListing = () => {
         setError(null);
 
         try {
-            // Make a request to the update listing endpoint
-            const response = await fetch(`https://marketfolio-be.onrender.com/listing/update/${id}`, {
-                method: 'PUT',
+            // Make a request to the update listing endpoint using Axios
+            const response = await axios.put(`http://18.193.116.80:2005/listing/update/${id}`, data, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },
-                body: JSON.stringify(data),
             });
 
-            if (!response.ok) {
+            // Handle non-200 responses
+            if (response.status !== 200) {
                 throw new Error('Failed to update listing');
             }
 
             // Handle the response data if needed
-            const updatedListing = await response.json();
+            const updatedListing = response.data;
 
             // Return the updated listing or perform any other necessary actions
             return updatedListing;

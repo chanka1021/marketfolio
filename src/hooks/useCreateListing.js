@@ -28,7 +28,7 @@ export const useCreateListing = () => {
                 formData.append('photos', blob, `photo_${i}.jpg`); // Adjust filename if necessary
             }
 
-            const response = await axios.post('https://marketfolio-be.onrender.com/listing/create', formData, {
+            const response = await axios.post('http://18.193.116.80:2005/listing/create', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'authorization': `Bearer ${user.token}`
