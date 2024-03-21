@@ -68,7 +68,11 @@ function Navbar() {
                     <IoMdContact className="mr-2" />
                     Login
                   </Link>
-                  <SellBtn />
+                  <Link to="/insert" className="btn bg-blue-500 hover:bg-blue-700 flex justify-center text-white py-2 px-4 rounded w-full">
+                    <MdOutlineAddToPhotos className="mr-2" />
+                    <SellBtn />
+
+                  </Link>
                 </div>
               </span>
             )}
