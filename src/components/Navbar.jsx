@@ -32,6 +32,12 @@ function Navbar() {
     setLogged(!!user);
   }, [user]);
 
+  // Function to toggle mobile menu open/close
+  const closeMenu = () => {
+    if(open) {
+      setOpen(false);
+    }
+  };
   return (
     <div className="shadow-md w-full relative top-0 left-0">
       <div className="xl:px-60 md:px-12 py-4 px-7 md:flex items-center justify-between">
@@ -54,7 +60,7 @@ function Navbar() {
         >
           <div className="md:hidden mt-10">
             {logged ? (
-              <UserMenu mobile={true} />
+              <UserMenu mobile={true} closeMenu={closeMenu} />
             ) : (
               <span>
                 <h4 className="text-3xl font-bold text-gray-800">
@@ -63,15 +69,10 @@ function Navbar() {
                 <h6 className="text-gray-800 text-xl">
                   Your favorite marketplace in Europe
                 </h6>
-                <div className="mt-5 w-full m-auto pr-9 flex flex-col gap-2">
-                  <Link to="/login" className="btn bg-blue-500 hover:bg-blue-700 flex justify-center text-white py-2 px-4 rounded w-full">
-                    <IoMdContact className="mr-2" />
+                <div onClick={closeMenu} className="mt-5  m-auto pr-9 flex ">
+                  <Link to="/login" className="btn  bg-blue-500 hover:bg-blue-700 flex items-center justify-center text-white py-2 px-4 rounded w-full">
+                    <IoMdContact className="mr-2 text-2xl " />
                     Login
-                  </Link>
-                  <Link to="/insert" className="btn bg-blue-500 hover:bg-blue-700 flex justify-center text-white py-2 px-4 rounded w-full">
-                    <MdOutlineAddToPhotos className="mr-2" />
-                    <SellBtn />
-
                   </Link>
                 </div>
               </span>
@@ -79,7 +80,7 @@ function Navbar() {
           </div>
           {/* Render dynamic links */}
           {Links.map((link) => (
-            <li key={link.name} className="md:ml-8 md:my-0 my-7 font-semibold flex items-center">
+            <li onClick={closeMenu} key={link.name} className="md:ml-8 md:my-0 my-7 font-semibold flex items-center">
               <Link to={link.link} className="md:hidden mr-2 text-2xl">
                 {link.icon}
               </Link>

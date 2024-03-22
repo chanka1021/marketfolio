@@ -64,14 +64,9 @@ const Listing = () => {
     return null; 
   }
   const { name, description, city, createdAt, price, category, photos,userInfo } = listingData;
-  const url = "https://marketfolio-be.onrender.com/"
-  const images = photos.map((photo) => {
-    return `${url}${photo.replace('public/', '')}`;
-  });
-    
+  
  
 
- console.log(images)
   
   const dateDiff = () => {
     return formatDistance(new Date(createdAt), new Date())
@@ -104,7 +99,7 @@ const openPhoneModal = () => {
             You should always meet the seller at a safe location.
           </p>
           <p className="text-center font-[Poppins] text-base mt-5 text-gray-900 ">
-            Call {user.name}
+            Call {userInfo.name}
           </p>
           <button className="mt-5 mb-3 p-2 rounded-md px-6 border border-Cyan flex items-center shadow-xl duration-300 hover:bg-Cyan hover:text-white ">
             <MdCall className="mr-3 text-3xl text-gray-600" />
@@ -132,7 +127,7 @@ const openPhoneModal = () => {
         <div className="shadow-md p-5">
           <div className="md:px-32 w-full">
             <Slider {...settings}>
-              {images.map((img, index) => (
+              {photos.map((img, index) => (
                 <div key={index}>
                   <img
                     onClick={() => window.open(img)}

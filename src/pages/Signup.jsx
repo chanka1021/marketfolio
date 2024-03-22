@@ -62,6 +62,7 @@ function Signup() {
       setPasswordError("Password must be at least 8 characters long.");
       isValid = false;
      } */
+
      if (address.length === 0) {
       setAdressError("Address cannot be empty")
       isValid = false
@@ -75,27 +76,14 @@ function Signup() {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center  md:px-5 ">
+    <div className="w-full max-sm:mb-20 h-screen flex justify-center md:px-5 ">
       <div className="w-[90%]  md:flex items-center md:p-20 ">
         <div className="w-[50%] m-auto ">
           <img src={img} alt="" />
         </div>
         <div className="w-full md:pt-10 md:w-[50%] md:px-20">
           <h1 className="text-3xl font-bold">Sign up to MarketFolio</h1>
-          <p className="text-gray-500 py-5">
-            You can also sign up using your Facebook or Google account.
-          </p>
-          <div className="flex gap-5 md:gap-20 justify-center">
-            <button className="p-2 rounded-lg px-10 border-2 flex items-center shadow-xl duration-300 hover:bg-Cyan hover:text-white">
-              <FcGoogle className="mr-2" /> Google
-            </button>
-            <button className="p-2 rounded-lg px-10 border-2 flex items-center shadow-xl duration-300 hover:bg-Crimson hover:text-white">
-              <RiFacebookFill className="mr-2 text-blue-700" /> Facebook
-            </button>
-          </div>
-          <div className="w-full text-gray-500 border-b items-center text-center font-bold py-5">
-            Or
-          </div>
+       
           <form>
             <div>
               <Text className="mt-4 py-1">Name</Text>

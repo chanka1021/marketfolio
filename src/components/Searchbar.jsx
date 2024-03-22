@@ -14,6 +14,7 @@ import { Cities } from "./../data/cities";
 import CategorySelectorDrawer from './Drawers/CategorySelectorDrawer';
 import CitySelectorDrawer from './Drawers/CitySelectorDrawer';
 import { useSearch } from "../context/FilterContext";
+import { Link } from "react-router-dom";
 
 function Searchbar() {
   // State variables for selected category, filtered cities, and city selection modal
@@ -95,6 +96,7 @@ function Searchbar() {
         </div>
         {/* Button for search action */}
         <div className="md:w-1/4 h-full md:px-2 max-sm:mt-5">
+          <Link to="/products"> 
           <Button
             _hover={{ bg: "#24s4lorCC" }}
             leftIcon={<CiSearch className="text-2xl" />}
@@ -105,6 +107,7 @@ function Searchbar() {
           >
             Search
           </Button>
+          </Link>
         </div>
       </div>
       {/* Render modals */}

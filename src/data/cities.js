@@ -1,4 +1,5 @@
 export const Cities = [
+    "All",
     "Berlin",
     "Hamburg",
     "Munich",

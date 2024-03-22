@@ -25,11 +25,11 @@ function UserMenu(props) {
   const { logout } = useLogout();
   const Signout = () => {
     logout();
-  };
-   if (!user) {
-    // If user is null, display nothing or a loading indicator
+  }; 
+  if (!user) {
     return null;
   }
+
   if (props.mobile) {
     return (
       <>
@@ -42,7 +42,9 @@ function UserMenu(props) {
         </div>
         <ul className="flex flex-col gap-1 w-full mt-4 pr-9 font-light">
           {UserLinks.map((link) => (
+            <Link key={link.name} to={link.link}>
             <li
+              onClick={props.closeMenu}
               key={link.name}
               className="flex items-center justify-between p-1"
             >
@@ -51,7 +53,7 @@ function UserMenu(props) {
               </div>
               <MdNavigateNext />
             </li>
-            
+            </Link>
           ))}
           <button onClick={Signout}>
           <li className="flex items-center justify-between p-1">
@@ -60,8 +62,9 @@ function UserMenu(props) {
               <a className="ml-3">Sign out</a>
             </div>
           </li></button>
+          <Link onClick={props.closeMenu} to="/insert">
           <SellBtn />
-          
+          </Link>
         </ul>
       </>
     );
