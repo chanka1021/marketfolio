@@ -1,12 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import ProductCard from "./Cards/ProductCard";
 import { Categories } from "../data/categories";
 import { BsXDiamondFill } from "react-icons/bs";
 import arrowL from "../assets/arrow.svg";
 import arrowR from "../assets/arrow rotated.svg";
-function ProductByCat({ id }) {
-  const cat = Categories.find((cat) => cat.id === id);
+
+
+import { useGetListing } from "../hooks/useGetListing";
+function ProductByCat({ cat }) {
+ const { getFilteredListings } = useGetListing();
+  const [listings, setListings] = useState([]);
+/// fetch data
+useEffect(() => {
+  fetchedListings();
+}, []);
+
+// Function to fetch listings based on applied filters
+const fetchedListings = async () => {
+  try {
+    const category = categoryDetails.name === "All Categories" ? null : categoryDetails.name;
+    const status = "Published";
+    const data = await getFilteredListings({ category, status });
+    setListings(data);
+  } catch (err) {
+    console.error("Error fetching listings:", err);
+  }
+};
+  
+
+  //// category handle 
+  let categoryDetails = Categories.find((category) => category.name === cat);
+  // If category details are not found, search in children
+  if (!categoryDetails) {
+    Categories.forEach((category) => {
+      if (category.childrens) {
+        const childCategory = category.childrens.find((child) => child.name === cat);
+        if (childCategory) {
+          categoryDetails = childCategory;
+          categoryDetails.color = category.color;
+        }
+      }
+    });
+  }
+
   if (!cat) {
     return null;
   }
@@ -54,10 +91,10 @@ function ProductByCat({ id }) {
       <div className="w-full 2xl:px-60   md:px-20 items-center text-lg gap-2 justify-between py-4">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold text-gray-800 flex items-center">
-            <a style={{ color: cat.color }} className="mx-2">
-              {cat.icon}
+            <a style={{ color: categoryDetails.color }} className="mx-2">
+              {categoryDetails.icon}
             </a>{" "}
-            {cat.name}
+            {categoryDetails.name}
           </h2>
           <div className=" font-[Poppins]  duration-200 flex items-center py-5 text-blue-600 hover:text-indigo-950 cursor-pointer text-sm">
             <BsXDiamondFill className="mr-2 text-lg" />
@@ -66,7 +103,7 @@ function ProductByCat({ id }) {
         </div>
         <Slider {...settings} className="Cards-Slider py-5 text-black">
           {[...Array(8)].map((_, index) => (
-            <ProductCard key={index}  />
+            <ProductCard key={index} listing={listings[index]}  />
           ))}
         </Slider>
       </div>

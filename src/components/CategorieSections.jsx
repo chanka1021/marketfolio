@@ -18,7 +18,7 @@ function CategorieSections() {
             const index = i + 1; 
             return (
               <CategorieCard
-                link="/products"
+                category = {Categories[index]}
                 key={index} 
                 name={Categories[index].name} 
                 icon={Categories[index ].icon}

@@ -3,7 +3,6 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
   useDisclosure,
 } from "@chakra-ui/react";
 import { RiHome3Line } from "react-icons/ri";
@@ -14,7 +13,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import Searchbar from "../components/Searchbar";
 import PriceDrawer from "../components/Drawers/PriceDrawer";
 import { Categories } from "../data/categories";
-import { FilterContext } from './../context/FilterContext';
+import { FilterContext } from "../context/FilterContext";
 import { useGetListing } from "../hooks/useGetListing";
 import { Link } from "react-router-dom";
 
@@ -24,39 +23,22 @@ function Products() {
   const [currentPage, setCurrentPage] = useState(1);
   const { selectedCategory, selectedCity } = useContext(FilterContext);
   const { getFilteredListings } = useGetListing();
-  const [category, setCategory] = useState(null);
-  const [city, setCity] = useState(null);
   const [listings, setListings] = useState([]);
-  const productCount = listings.length;
   const productsPerPage = 30;
-  const totalPages = Math.ceil(productCount / productsPerPage);
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentListings = listings.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const indexOfFirstProduct = (currentPage - 1) * productsPerPage;
 
   // Fetch listings based on selected category and city
   useEffect(() => {
-    // Set category and city based on selected values
-    setCategory(selectedCategory.name === "All Categories" ? null : selectedCategory.name);
-    setCity(selectedCity === "ALL" ? null : selectedCity);
-  }, [selectedCategory, selectedCity]);
-
-  // Fetch listings on initial load and when category/city changes
-  useEffect(() => {
     fetchedListings();
-  }, [category, city]);
+  }, [currentPage, selectedCategory, selectedCity]);
 
   // Function to fetch listings based on applied filters
   const fetchedListings = async () => {
     try {
-      const data = await getFilteredListings({
-        category,
-        city,
-        status: "Published"
-      });
+      const category = selectedCategory.name === "All Categories" ? null : selectedCategory.name;
+      const city = selectedCity === "ALL" ? null : selectedCity;
+      const status = "Published";
+      const data = await getFilteredListings({ category, city, status });
       setListings(data);
     } catch (err) {
       console.error("Error fetching listings:", err);
@@ -70,22 +52,20 @@ function Products() {
   };
 
   // Get category details
-  let categoryDetails = Categories.find(category => category.name === selectedCategory.name);
+  let categoryDetails = Categories.find((category) => category.name === selectedCategory.name);
 
-// If category details are not found, search in children
-if (!categoryDetails) {
-  Categories.forEach(category => {
-    if (category.childrens) {
-      const childCategory = category.childrens.find(child => child.name === selectedCategory.name);
-      if (childCategory) {
-        categoryDetails = childCategory;
-        categoryDetails.parentColor = category.color;
+  // If category details are not found, search in children
+  if (!categoryDetails) {
+    Categories.forEach((category) => {
+      if (category.childrens) {
+        const childCategory = category.childrens.find((child) => child.name === selectedCategory.name);
+        if (childCategory) {
+          categoryDetails = childCategory;
+          categoryDetails.parentColor = category.color;
+        }
       }
-    }
-  });
-}
-
-
+    });
+  }
 
   return (
     <div className="w-full">
@@ -101,21 +81,22 @@ if (!categoryDetails) {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#">{categoryDetails.name}</BreadcrumbLink>
+            <BreadcrumbLink href="#">{categoryDetails?.name}</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
         {/* Category buttons */}
         <div className="flex flex-wrap py-4 gap-1">
-            <button
-              className="hover:bg-blue-200 bg-slate-200 flex items-center text-black font-bold py-2 px-4 rounded-full"
-            >
-              <a style={{ color: `${categoryDetails.color}` }} className="text-xl mx-2 ">
-                {categoryDetails.icon}{" "}
-              </a>
-              {categoryDetails.name}
-            </button>
+          <button
+            className="hover:bg-blue-200 bg-slate-200 flex items-center text-black font-bold py-2 px-4 rounded-full"
+            style={{ color: `${categoryDetails?.color}` }}
+          >
+            {categoryDetails?.icon} {categoryDetails?.name}
+          </button>
           {/* Button to open price drawer */}
-          <button onClick={onOpen} className="hover:bg-blue-200 bg-slate-200 flex items-center text-black font-bold py-2 px-4 rounded-full">
+          <button
+            onClick={onOpen}
+            className="hover:bg-blue-200 bg-slate-200 flex items-center text-black font-bold py-2 px-4 rounded-full"
+          >
             <MdOutlinePriceChange className="text-xl mx-2 text-green-900 " />
             Price
             <MdKeyboardArrowRight className="text-xl mx-2 " />
@@ -123,32 +104,23 @@ if (!categoryDetails) {
         </div>
         {/* Listing header */}
         <h1 className="text-3xl font-semibold text-gray-800 font-[Poppins] mt-4">
-          All Listings in {city ? city : "All cities"} ({listings.length} listings)
+          All Listings in {selectedCity ? selectedCity : "All cities"} ({listings.length} listings)
         </h1>
         {/* Listing cards */}
         <div className="mt-8 flex flex-wrap -mx-4">
-          {currentListings.map((listing) => (
-            <div
-              key={listing._id}
-              className="w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 m-8 md:m-4"
-            >
-            <Link to={`/listing/${listing._id}`} key={listing._id}>
-
-              <div className="rounded-md w-full hover:scale-105 duration-300 cursor-pointer select-none hover:shadow-2xl">
-                <div className="flex items-center py-2">
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <img
-                      src={img}
-                      alt="Profile"
-                      className="w-full h-full object-cover hover:opacity-75"
-                    />
+          {listings.slice(indexOfFirstProduct, indexOfFirstProduct + productsPerPage).map((listing) => (
+            <div key={listing._id} className="w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 m-8 md:m-4">
+              <Link to={`/listing/${listing._id}`}>
+                <div className="rounded-md w-full hover:scale-105 duration-300 cursor-pointer select-none hover:shadow-2xl">
+                  <div className="flex items-center py-2">
+                    <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <img src={img} alt="Profile" className="w-full h-full object-cover hover:opacity-75" />
+                    </div>
+                    <p className="font-semibold ml-2 hover:text-blue-600"> {listing.userInfo.name}</p>
                   </div>
-                  <p className="font-semibold ml-2 hover:text-blue-600"> {listing.userInfo.name}</p>
+                  <ProductCard inProductsPage listing={listing} />
                 </div>
-                <ProductCard inProductsPage listing={listing} />
-              </div>
-            </Link>
-
+              </Link>
             </div>
           ))}
         </div>
@@ -156,22 +128,17 @@ if (!categoryDetails) {
         <div className="mt-8">
           <nav className="flex justify-center">
             <ul className="flex">
-              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-                (page) => (
-                  <li key={page}>
-                    <button
-                      className={`${
-                        currentPage === page
-                          ? "bg-blue-500 text-white"
-                          : "bg-white text-blue-500"
+              {Array.from({ length: Math.ceil(listings.length / productsPerPage) }, (_, index) => index + 1).map((page) => (
+                <li key={page}>
+                  <button
+                    className={`${currentPage === page ? "bg-blue-500 text-white" : "bg-white text-blue-500"
                       } px-3 py-1 mx-1 rounded-md`}
-                      onClick={() => paginate(page)}
-                    >
-                      {page}
-                    </button>
-                  </li>
-                )
-              )}
+                    onClick={() => paginate(page)}
+                  >
+                    {page}
+                  </button>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import img from "../assets/test.jpg";
 import Slider from "react-slick";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { MdLocationPin } from "react-icons/md";

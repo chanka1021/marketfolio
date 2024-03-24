@@ -10,10 +10,10 @@ function Home() {
       <Banner/>
       <CategorieSections/>
 
-      <ProductByCat id="1"/>
-      <ProductByCat id="2"/>
-      <ProductByCat id="3"/>
-      <ProductByCat id="4"/>
+      <ProductByCat  cat="All Categories"/>
+      <ProductByCat cat = "Computers"/>
+      <ProductByCat cat="Home & Garden"/>
+      <ProductByCat cat="Dog"/>
 
       homesasas
       asas
