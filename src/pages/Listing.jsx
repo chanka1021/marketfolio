@@ -45,12 +45,17 @@ const Listing = () => {
 
     fetchListing();
   }, [id]);
-
+  if (!listingData) {
+    return null; 
+  }
+  const { name, description, city, createdAt, price, category, photos,userInfo,status } = listingData;
+  
+ 
   if (isPending) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
+  if (error || status !== "Published") {
     return (
       <div className="w-full flex flex-col mt-20  items-center">
         <div className="  font-['Poppins'] inline-block "> <h1 className=" bg-gradient-to-r from-rose-400 to-red-500  text-9xl font-bold text-transparent bg-clip-text">Error</h1> </div> 
@@ -59,12 +64,7 @@ const Listing = () => {
     );
   }
 
-  if (!listingData) {
-    return null; 
-  }
-  const { name, description, city, createdAt, price, category, photos,userInfo } = listingData;
-  
- 
+
 
   
   const dateDiff = () => {

@@ -41,6 +41,7 @@ import {
   AlertDialogCloseButton,
 } from "@chakra-ui/react";
 import { PiCurrencyDollarSimpleFill } from "react-icons/pi";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function ListingCard({
   listing,
@@ -59,7 +60,6 @@ function ListingCard({
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
   } = useDisclosure();
-  const [imageLoaded, setImageLoaded] = useState(false);
   const cancelRef = useRef(); // Define cancelRef here
 
   const [editFields, setEditFields] = useState({
@@ -98,19 +98,20 @@ function ListingCard({
   return (
     <>
       <Box
+        _hover={{  borderColor: "blue.300", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}
+        cursor={"pointer"}
+        rounded="lg"
+        overflow="hidden"
         key={listing._id}
         className="border rounded-lg mb-6 p-4 flex items-center"
         style={{ boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}
       >
-        <Skeleton isLoaded={imageLoaded} height="120px" width="120px">
-          <img
+          <LazyLoadImage
             src={listing.photos[0]}
             alt={listing.name}
             className="h-32 w-32  object-cover rounded-md mr-4"
-            onLoad={() => setImageLoaded(true)}
-            style={!imageLoaded ? { display: "none" } : {}}
+            effect="blur"
           />
-        </Skeleton>
         <div className="ml-5">
           <p className="text-xl font-bold">{listing.name}</p>
           <p className="text-lg font-bold text-green-700">{listing.price} €</p>
@@ -214,6 +215,7 @@ function ListingCard({
               <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3}>
                 Delete
               </Button>
+          
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
