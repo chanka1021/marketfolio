@@ -57,7 +57,7 @@ export const useGetListing = () => {
     const { category, city, minPrice, maxPrice, status } = filter;
     try {
       const res = await axios.get(
-        "http://localhost:2005/listing/filter",
+        "http://18.193.116.80:2005/listing/filter",
         {
              params: {
             category: category,

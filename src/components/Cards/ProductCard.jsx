@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import img from "../../assets/test.jpg";
 import { IoMdCamera } from "react-icons/io";
 import { AiOutlineClockCircle } from "react-icons/ai";
@@ -8,34 +8,68 @@ import { formatDistance } from "date-fns";
 import { Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { useFavListing } from '../../hooks/useFavListing';
 
 function ProductCard(props) {
+  const { name, price, photos, desc, _id, createdAt } = props.listing || { name: null, price: null, photos: [], createdAt: null };
   const [fav, setFav] = useState(false);
   const toast = useToast();
-  const handleFavClick = (name) => {
-    if (!fav) {
-      toast({
-        title: name,
-        description: "Added to Favorites",
-        status: "success",
-        duration: 1400,
-        isClosable: true,
-      });
+  const { user } = useAuthContext();
+  const { fetchFavListing, favListing, unfavListing } = useFavListing();
+  const [listings, setListings] = useState([]);
+
+
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        const response = await fetchFavListing(user.id);
+        setListings(response.data);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+      }
+    };
+
+    fetchListings();
+  }, [user.id, fetchFavListing]);
+
+  useEffect(() => {
+    const isFavorite = listings.some((listing) => listing._id === _id);
+    setFav(isFavorite);
+    console.log(isFavorite)
+    console.log(listings)
+  }, [listings, _id]);
+
+  const handleFavClick = useCallback(async (name) => {
+
+    try {
+      if (!fav) {
+        await favListing(listingData);
+        toast({
+          title: name,
+          description: "Added to Favorites",
+          status: "success",
+          duration: 1400,
+          isClosable: true,
+        });
+      } else {
+        await unfavListing(listingData); 
+        toast({
+          title: name,
+          description: "Removed from Favorites",
+          status: "error",
+          duration: 1400,
+          isClosable: true,
+        });
+      }
       setFav(!fav);
-    } else {
-      toast({
-        title: name,
-        description: "Removed From Favorites",
-        status: "error",
-        duration: 1400,
-        isClosable: true,
-      });
-      setFav(!fav);
+    } catch (error) {
+      console.error("Error:", error);
     }
-  };
-  
+  }, [fav, favListing, unfavListing, toast]);
+
   const inProductsPage = props.inProductsPage;
-  const { name, price, photos, desc, _id, createdAt } = props.listing || { name: null, price: null, photos: [], createdAt: null };
   const time = props.listing ? formatDistance(new Date(createdAt), new Date()) : null;
 
   return (
@@ -71,7 +105,7 @@ function ProductCard(props) {
             <div
               className={`text-lg ${fav ? "text-Crimson" : "text-gray-600"} hover:text-Crimson transition duration-300`}
               onClick={() => {
-                handleFavClick("Product Name");
+                handleFavClick( name);
               }}
             >
               <FaHeart />
