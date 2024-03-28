@@ -41,7 +41,7 @@ function ProductCard(props) {
     console.log(listings)
   }, [listings, _id]);
 
-  const handleFavClick = useCallback(async (name) => {
+/*   const handleFavClick = useCallback(async (name) => {
 
     try {
       if (!fav) {
@@ -68,7 +68,29 @@ function ProductCard(props) {
       console.error("Error:", error);
     }
   }, [fav, favListing, unfavListing, toast]);
-
+ */
+const handleFavClick =async (name) =>{
+  if (!fav) {
+   await favListing(listingData); 
+    toast({
+      title: name,
+      description: "Added to Favorites",
+      status: "success",
+      duration: 1400,
+      isClosable: true,
+    });
+  } else {
+    await unfavListing(listingData);
+    toast({
+      title: name,
+      description: "Removed from Favorites",
+      status: "error",
+      duration: 1400,
+      isClosable: true,
+    });
+  }
+  setFav(!fav);
+}
   const inProductsPage = props.inProductsPage;
   const time = props.listing ? formatDistance(new Date(createdAt), new Date()) : null;
 
