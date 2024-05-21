@@ -12,7 +12,7 @@ export const useGetListing = () => {
 
     try {
       const response = await axios.get(
-        `http://18.193.116.80:2005/listing/one/${id}`
+        `http://localhost:2005/listing/one/${id}`
       );
       if (response.status === 200 || response.status === 201) {
         setIsPending(false);
@@ -34,7 +34,7 @@ export const useGetListing = () => {
     setIsPending(true);
     try {
       const res = await axios.get(
-        `http://18.193.116.80:2005/listing/user/${id}`
+        `http://localhost:2005/listing/user/${id}`
       );
       if (res.status === 200 || res.status === 201) {
         setIsPending(false);
@@ -57,7 +57,7 @@ export const useGetListing = () => {
     const { category, city, minPrice, maxPrice, status } = filter;
     try {
       const res = await axios.get(
-        "http://18.193.116.80:2005/listing/filter",
+        "http://localhost:2005/listing/filter",
         {
              params: {
             category: category,

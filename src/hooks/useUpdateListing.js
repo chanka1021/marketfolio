@@ -13,7 +13,7 @@ const useUpdateListing = () => {
 
         try {
             // Make a request to the update listing endpoint using Axios
-            const response = await axios.put(`http://18.193.116.80:2005/listing/update/${id}`, data, {
+            const response = await axios.put(`http://localhost:2005/listing/update/${id}`, data, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },

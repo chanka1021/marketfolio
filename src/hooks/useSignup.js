@@ -12,7 +12,7 @@ export const useSignup = () => {
     setIsPending(true);
 
     try {
-      const response = await axios.post("http://18.193.116.80:2005/user/signup", {
+      const response = await axios.post("http://localhost:2005/user/signup", {
         name,
         email,
         password,
