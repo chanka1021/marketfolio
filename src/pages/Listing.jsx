@@ -7,7 +7,7 @@ import { MdLocationPin } from "react-icons/md";
 import { RiTimeFill } from "react-icons/ri";
 import pp from "../assets/avatar.svg";
 import { useAuthContext } from "./../hooks/useAuthContext";
-import { Image, useDisclosure } from "@chakra-ui/react";
+import { Image, useDisclosure, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay, Button } from "@chakra-ui/react";
 import { BsChat } from "react-icons/bs";
 import { MdCall } from "react-icons/md";
 import {
@@ -27,6 +27,8 @@ import { formatDistance } from "date-fns";
 const Listing = () => {
   const { user } = useAuthContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isChatOpen, onOpen: onChatOpen, onClose: onChatClose } = useDisclosure();
+  const cancelRef = React.useRef();
 
   const { id } = useParams();
   const { error, isPending, getListing } = useGetListing();
@@ -45,12 +47,13 @@ const Listing = () => {
 
     fetchListing();
   }, [id]);
+
   if (!listingData) {
     return null; 
   }
-  const { name, description, city, createdAt, price, category, photos,userInfo,status } = listingData;
+
+  const { name, description, city, createdAt, price, category, photos, userInfo, status } = listingData;
   
- 
   if (isPending) {
     return <div>Loading...</div>;
   }
@@ -64,14 +67,11 @@ const Listing = () => {
     );
   }
 
-
-
-  
   const dateDiff = () => {
     return formatDistance(new Date(createdAt), new Date())
   }
   
-const openPhoneModal = () => {
+  const openPhoneModal = () => {
     onOpen();
   };
 
@@ -108,6 +108,31 @@ const openPhoneModal = () => {
       </ModalContent>
     </Modal>
   );
+
+  const chatAlertDialog = (
+    <AlertDialog
+      isOpen={isChatOpen}
+      leastDestructiveRef={cancelRef}
+      onClose={onChatClose}
+    >
+      <AlertDialogOverlay>
+        <AlertDialogContent>
+          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+            Coming Soon!
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            The chat feature is under development and will be available soon. Stay tuned!
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button ref={cancelRef} onClick={onChatClose}>
+              Close
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialogOverlay>
+    </AlertDialog>
+  );
+
   const settings = {
     dots: true,
     infinite: false,
@@ -120,6 +145,7 @@ const openPhoneModal = () => {
     nextArrow: <FcNext />,
     prevArrow: <FcPrevious />,
   };
+
   return (
     <>
       <div className="w-full xl:px-60 md:px-20 flex flex-col py-4">
@@ -163,7 +189,7 @@ const openPhoneModal = () => {
                 </div>
               </div>
               <div className="flex items-center justify-between gap-2">
-                <button className="bg-cyan-100 p-2 rounded-full cursor-pointer">
+                <button onClick={onChatOpen} className="bg-cyan-100 p-2 rounded-full cursor-pointer">
                   <BsChat className="text-3xl text-Cyan" />
                 </button>
                 <button
@@ -184,6 +210,7 @@ const openPhoneModal = () => {
           </main>
         </div>
         {phoneModal}
+        {chatAlertDialog}
       </div>
       <div className="p-0 mt-10">
         <h3 className="text-2xl font-bold  xl:px-60 md:px-20 ">

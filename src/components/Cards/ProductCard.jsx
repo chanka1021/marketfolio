@@ -21,7 +21,7 @@ function ProductCard(props) {
 
 
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchListings = async () => {
       try {
         const response = await fetchFavListing(user.id);
@@ -37,9 +37,8 @@ function ProductCard(props) {
   useEffect(() => {
     const isFavorite = listings.some((listing) => listing._id === _id);
     setFav(isFavorite);
-    console.log(isFavorite)
-    console.log(listings)
-  }, [listings, _id]);
+
+  }, [listings, _id]); */
 
 /*   const handleFavClick = useCallback(async (name) => {
 
