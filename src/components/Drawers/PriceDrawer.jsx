@@ -129,7 +129,7 @@ function PriceDrawer({ isOpen, onClose }) {
             <div className="flex flex-row gap-4 items-center mt-5">
               <Input type="number" placeholder="min" />
               {" - "}
-              <Input type="number" placeholder="max" /> dh
+              <Input type="number" placeholder="max" /> €
             </div>
           </DrawerBody>
           {/* Search Button */}
@@ -137,7 +137,7 @@ function PriceDrawer({ isOpen, onClose }) {
             <Button colorScheme="blue"
              onClick={() => onClose()}
              leftIcon={<VscPackage className="text-4xl text-Crimson px-2" />}
-            > 155 listings</Button>
+            > View listings</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

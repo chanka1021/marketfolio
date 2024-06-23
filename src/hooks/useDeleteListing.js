@@ -13,7 +13,7 @@ const useDeleteListing = () => {
 
         try {
             // Make a request to delete the listing using Axios
-            const response = await axios.delete(`http://localhost:2005/listing/delete/${id}`, {
+            const response = await axios.delete(`http://18.192.129.46:2005/listing/delete/${id}`, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },

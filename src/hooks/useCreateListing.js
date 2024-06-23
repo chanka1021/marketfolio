@@ -28,7 +28,7 @@ export const useCreateListing = () => {
                 formData.append('photos', blob, `photo_${i}.jpg`); // Adjust filename if necessary
             }
 
-            const response = await axios.post('http://localhost:2005/listing/create', formData, {
+            const response = await axios.post('http://18.192.129.46:2005/listing/create', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'authorization': `Bearer ${user.token}`

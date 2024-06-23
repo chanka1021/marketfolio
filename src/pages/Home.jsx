@@ -14,9 +14,6 @@ function Home() {
       <ProductByCat cat = "Computers"/>
       <ProductByCat cat="Home & Garden"/>
       <ProductByCat cat="Dog"/>
-
-      homesasas
-      asas
     </div>
   )
 }
