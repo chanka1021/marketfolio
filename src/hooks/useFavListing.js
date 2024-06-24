@@ -12,7 +12,7 @@ export const useFavListing = () => {
         setError(null);
         
         try{
-            const response = await axios.post(`http://18.192.129.46:2005/user/addfav`, {
+            const response = await axios.post(`http://3.79.56.117:2005/user/addfav`, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },
@@ -31,7 +31,7 @@ export const useFavListing = () => {
         setIsLoading(true);
         setError(null);
         try{
-            const response = await axios.post(`http://18.192.129.46:2005/user/removefav`, {
+            const response = await axios.post(`http://3.79.56.117:2005/user/removefav`, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },
@@ -48,7 +48,7 @@ export const useFavListing = () => {
     };
     const fetchFavListing = async (id) => {
         try {
-            const data = await axios.get(`http://18.192.129.46:2005/listing/fav/${id}`, {
+            const data = await axios.get(`http://3.79.56.117:2005/listing/fav/${id}`, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },

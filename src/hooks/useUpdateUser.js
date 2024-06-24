@@ -16,7 +16,7 @@ const useUpdateUser = () => {
     try {
       const requestData = { ...data, passwordOLD: oldPassword };
       const response = await axios.put(
-        `http://18.192.129.46:2005/user/update/${id}`,
+        `http://3.79.56.117:2005/user/update/${id}`,
         requestData
       );
       if (response.status === 200 || response.status === 201) {
