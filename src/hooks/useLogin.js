@@ -13,7 +13,7 @@ export const useLogin = () => {
     setIsPending(true);
 
     try {
-      const response = await axios.post("http://3.79.56.117:2005/user/login", {
+      const response = await axios.post("https://marketfolio-be.onrender.com/user/login", {
         email,
         password,
       });

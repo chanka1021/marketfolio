@@ -13,7 +13,7 @@ const useUpdateListing = () => {
 
         try {
             // Make a request to the update listing endpoint using Axios
-            const response = await axios.put(`http://3.79.56.117:2005/listing/update/${id}`, data, {
+            const response = await axios.put(`https://marketfolio-be.onrender.com/listing/update/${id}`, data, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },

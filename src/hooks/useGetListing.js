@@ -12,7 +12,7 @@ export const useGetListing = () => {
 
     try {
       const response = await axios.get(
-        `http://3.79.56.117:2005/listing/one/${id}`
+        `https://marketfolio-be.onrender.com/listing/one/${id}`
       );
       if (response.status === 200 || response.status === 201) {
         setIsPending(false);
@@ -34,7 +34,7 @@ export const useGetListing = () => {
     setIsPending(true);
     try {
       const res = await axios.get(
-        `http://3.79.56.117:2005/listing/user/${id}`
+        `https://marketfolio-be.onrender.com/listing/user/${id}`
       );
       if (res.status === 200 || res.status === 201) {
         setIsPending(false);
@@ -57,7 +57,7 @@ export const useGetListing = () => {
     const { category, city, minPrice, maxPrice, status } = filter;
     try {
       const res = await axios.get(
-        "http://3.79.56.117:2005/listing/filter",
+        "https://marketfolio-be.onrender.com/listing/filter",
         {
              params: {
             category: category,

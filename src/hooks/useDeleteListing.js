@@ -13,7 +13,7 @@ const useDeleteListing = () => {
 
         try {
             // Make a request to delete the listing using Axios
-            const response = await axios.delete(`http://3.79.56.117:2005/listing/delete/${id}`, {
+            const response = await axios.delete(`https://marketfolio-be.onrender.com/listing/delete/${id}`, {
                 headers: {
                     'authorization': `Bearer ${user.token}`,
                 },

@@ -16,7 +16,7 @@ const useUpdateUser = () => {
     try {
       const requestData = { ...data, passwordOLD: oldPassword };
       const response = await axios.put(
-        `http://3.79.56.117:2005/user/update/${id}`,
+        `https://marketfolio-be.onrender.com/user/update/${id}`,
         requestData
       );
       if (response.status === 200 || response.status === 201) {
