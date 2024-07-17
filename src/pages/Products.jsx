@@ -4,6 +4,8 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   useDisclosure,
+  Box,
+  Spinner
 } from "@chakra-ui/react";
 import { RiHome3Line } from "react-icons/ri";
 import ProductCard from "../components/Cards/ProductCard";
@@ -22,7 +24,7 @@ function Products() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentPage, setCurrentPage] = useState(1);
   const { selectedCategory, selectedCity } = useContext(FilterContext);
-  const { getFilteredListings } = useGetListing();
+  const { getFilteredListings, isPending } = useGetListing(); // Get isPending
   const [listings, setListings] = useState([]);
   const productsPerPage = 30;
   const indexOfFirstProduct = (currentPage - 1) * productsPerPage;
@@ -107,23 +109,29 @@ function Products() {
           All Listings in {selectedCity ? selectedCity : "All cities"} ({listings.length} listings)
         </h1>
         {/* Listing cards */}
-        <div className="mt-8 flex flex-wrap -mx-4">
-          {listings.slice(indexOfFirstProduct, indexOfFirstProduct + productsPerPage).map((listing) => (
-            <div key={listing._id} className="w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 m-8 md:m-4">
-              <Link to={`/listing/${listing._id}`}>
-                <div className="rounded-md w-full hover:scale-105 duration-300 cursor-pointer select-none hover:shadow-2xl">
-                  <div className="flex items-center py-2">
-                    <div className="w-12 h-12 rounded-full overflow-hidden">
-                      <img src={img} alt="Profile" className="w-full h-full object-cover hover:opacity-75" />
+        {isPending ? (
+          <Box className="flex justify-center items-center h-full">
+            <Spinner size="xl" />
+          </Box>
+        ) : (
+          <div className="mt-8 flex flex-wrap -mx-4">
+            {listings.slice(indexOfFirstProduct, indexOfFirstProduct + productsPerPage).map((listing) => (
+              <div key={listing._id} className="w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 m-8 md:m-4">
+                <Link to={`/listing/${listing._id}`}>
+                  <div className="rounded-md w-full hover:scale-105 duration-300 cursor-pointer select-none hover:shadow-2xl">
+                    <div className="flex items-center py-2">
+                      <div className="w-12 h-12 rounded-full overflow-hidden">
+                        <img src={img} alt="Profile" className="w-full h-full object-cover hover:opacity-75" />
+                      </div>
+                      <p className="font-semibold ml-2 hover:text-blue-600"> {listing.userInfo.name}</p>
                     </div>
-                    <p className="font-semibold ml-2 hover:text-blue-600"> {listing.userInfo.name}</p>
+                    <ProductCard inProductsPage listing={listing} />
                   </div>
-                  <ProductCard inProductsPage listing={listing} />
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
         {/* Pagination */}
         <div className="mt-8">
           <nav className="flex justify-center">

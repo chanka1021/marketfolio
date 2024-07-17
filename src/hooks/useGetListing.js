@@ -29,6 +29,7 @@ export const useGetListing = () => {
       setError(err.response ? err.response.data.error : "An error occurred");
     }
   };
+
   const getListingsOfUser = async (id) => {
     setError(null);
     setIsPending(true);
@@ -51,6 +52,7 @@ export const useGetListing = () => {
       setError(err.response ? err.response.data.error : "An error occurred");
     }
   };
+
   const getFilteredListings = async (filter) => {
     setError(null);
     setIsPending(true);
@@ -59,12 +61,12 @@ export const useGetListing = () => {
       const res = await axios.get(
         "https://marketfolio-be.onrender.com/listing/filter",
         {
-             params: {
+          params: {
             category: category,
-            city:  city,
-            minPrice:  minPrice,
-            maxPrice:  maxPrice,
-            status:  status,
+            city: city === "All" ? null : city,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            status: status,
           },
         }
       );

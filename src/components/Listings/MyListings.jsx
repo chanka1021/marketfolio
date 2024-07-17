@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Box, useToast } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Box, useToast, Spinner, Text, Button } from "@chakra-ui/react";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
-import img from "../../assets/test.jpg";
-import ListingCard from "../Cards/ListingCard";
 import img2 from "../../assets/nolisting.png";
+import ListingCard from "../Cards/ListingCard";
 import { useGetListing } from "../../hooks/useGetListing";
 import { Link } from "react-router-dom";
 import useDeleteListing from "../../hooks/useDeleteListing";
@@ -11,11 +10,11 @@ import useUpdateListing from "../../hooks/useUpdateListing";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 const MyListings = () => {
-  const { getListingsOfUser } = useGetListing();
+  const { getListingsOfUser, isPending } = useGetListing();
   const { user } = useAuthContext();
   const toast = useToast();
+  const [myListings, setMyListings] = useState([]);
 
-  const [myListings, setMyListings] = useState([]); 
   const { deleteListing } = useDeleteListing();
   const { updateListing } = useUpdateListing();
 
@@ -31,7 +30,6 @@ const MyListings = () => {
       console.error("Error fetching listings:", err);
     }
   };
- 
 
   const handleDelete = async (id) => {
     try {
@@ -89,11 +87,19 @@ const MyListings = () => {
         duration: 3000,
         isClosable: true,
       });
-      fetchMyListings(); // Now fetchMyListings is accessible here
+      fetchMyListings();
     } catch (error) {
       console.error("Error updating visibility:", error);
     }
   };
+
+  if (isPending) {
+    return (
+      <Box className="flex justify-center items-center h-full">
+        <Spinner size="xl" />
+      </Box>
+    );
+  }
 
   return myListings.length > 0 ? (
     <Box>
@@ -108,21 +114,20 @@ const MyListings = () => {
       ))}
     </Box>
   ) : (
-    <span className="text-center flex flex-col items-center gap-4 bg-gray-100 p-6 rounded-lg shadow-lg">
+    <Box className="text-center flex flex-col items-center gap-4 bg-gray-100 p-6 rounded-lg shadow-lg">
       <img className="w-52 rounded-full" src={img2} alt="No Listings Yet" />
-      <div className="text-gray-800 font-semibold text-lg">No Listings Yet!</div>
-      <div className="text-gray-600 font-semibold text-sm">
+      <Text className="text-gray-800 font-semibold text-lg">No Listings Yet!</Text>
+      <Text className="text-gray-600 font-semibold text-sm">
         List your product for free on MarketFolio today
-      </div>
-      <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+      </Text>
+      <Button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
         <Link to="/insert">
           <MdOutlineAddShoppingCart className="inline-block mr-2" />
           List your product
         </Link>
-      </button>
-    </span>
+      </Button>
+    </Box>
   );
 };
 
 export default MyListings;
- 
